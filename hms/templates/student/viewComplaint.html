@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}View Complaints{% endblock %}
+{% block content %}
+{% for complaint in complaints %}
+
+{{complaint.complainee_id}}<br/>
+{{complaint.addressedto_id}}<br/>
+{{complaint.forwardto_id }}<br/>
+{{complaint.complaint_timestamp}}<br/>
+{{complaint.complaint_type }}<br/>
+{{complaint.details }}<br/>
+{{complaint.status }}<br/>
+{{complaint.reason}}<br/>
+{{complaint.isAccepted}}<br/>
+
+{% endfor %}
+{% endblock %}
