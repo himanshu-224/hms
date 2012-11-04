@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.forms import ModelForm
 
 class UserProfile(models.Model):
 	userType_CHOICES = (
@@ -35,7 +36,7 @@ class Request(models.Model):
 	details = models.CharField(max_length=20)
 	status = models.CharField(max_length=20)
 	reason = models.CharField(max_length=20)
-	isAccepted = models.IntegerField(max_length=3, choices=isAccepted_CHOICES)
+	isAccepted = models.IntegerField(max_length=3, choices=isAccepted_CHOICES, default=2)
 
 class Complaint(models.Model):
 	isAccepted_CHOICES = (
@@ -45,13 +46,13 @@ class Complaint(models.Model):
 	)
 	complainee_id = models.CharField(max_length=30)
 	addressedto_id = models.CharField(max_length=30)
-	forwardto_id = models.CharField(max_length=30)
+	forwardto_id = models.CharField(max_length=30,default='')
 	complaint_timestamp = models.DateField(max_length=30)
 	complaint_type = models.CharField(max_length=30)
-	details = models.CharField(max_length=30)
-	status = models.CharField(max_length=30)
-	reason = models.CharField(max_length=30)
-	isAccepted = models.IntegerField(max_length=3, choices=isAccepted_CHOICES)
+	details = models.CharField(max_length=500)
+	status = models.CharField(max_length=200,default='')
+	reason = models.CharField(max_length=200,default='')
+	isAccepted = models.IntegerField(max_length=3, choices=isAccepted_CHOICES,default=2)
 	
 class DuesItem(models.Model):
 	isApproved_CHOICES = (
@@ -184,9 +185,6 @@ class Message(models.Model):
 	message = models.CharField(max_length=20)
 	timestamp = models.DateField(max_length=10)
 	isRead = models.IntegerField(max_length=10, choices=isRead_CHOICES)
-	
-
-
 
 
 
