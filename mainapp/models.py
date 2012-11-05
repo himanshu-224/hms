@@ -158,11 +158,62 @@ class Budget(models.Model):
 	end_dateTime = models.DateField(max_length=20)
 	is_Approved = models.IntegerField(max_length=20, choices=isApproved_CHOICES)
 	
-class PolicyInformation(models.Model):
-	currently_active_policy = models.CharField(max_length=20)
-	proposed_policy = models.CharField(max_length=20)
-	policy_status = models.CharField(max_length=20)
-	message = models.CharField(max_length=20)
+class Policy(models.Model):
+    statement = models.CharField(max_length = 500)
+    proposal = models.CharField(max_length = 500, blank = True)
+    STATUS = (
+    (u'APP', u'Approved'),
+    (u'PFC', u'Proposed for change'),
+    (u'NPR', u'New Proposal'),
+    )
+    status = models.CharField(max_length = 10, choices = STATUS)
+    SEND_REQ_TO = (
+    (u'DS', u'Dosa'),
+    (u'SS', u'Student Senate'),
+    )
+    requestedTo = models.CharField(max_length = 10, choices = SEND_REQ_TO, blank = True)
+    message = models.CharField(max_length = 500, blank = True)
+
+    def getStatement(self):
+        return self.statement
+    
+    def setStatement(self, stmt):
+        self.statement = stmt
+        self.save()
+
+    def getProposal(self):
+        return self.proposal
+
+    def setProposal(self, stmt):
+        self.proposal = stmt
+        self.save()
+
+    def getStatus(self):
+        return self.status
+
+    def setStatus(self, stat):
+        self.status = stat
+        self.save()
+
+    def getReqTo(self):
+        return self.status
+
+    def setReqTo(self, reqTo):
+        self.status = reqTo
+        self.save()
+
+    def getMessage(self):
+        return self.message
+
+    def setMessage(self, msg):
+        self.message = msg
+        self.save()
+
+    def getId(self):
+        return self.id
+
+    def delPolicy(self):
+        self.delete()
 	
 class HallGuest(models.Model):
 	guest_id = models.CharField(max_length=10)
