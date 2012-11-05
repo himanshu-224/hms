@@ -164,7 +164,7 @@ class Policy(models.Model):
     STATUS = (
     (u'APP', u'Approved'),
     (u'PFC', u'Proposed for change'),
-    (u'NRP', u'New Proposal'),
+    (u'NPR', u'New Proposal'),
     )
     status = models.CharField(max_length = 10, choices = STATUS)
     SEND_REQ_TO = (
