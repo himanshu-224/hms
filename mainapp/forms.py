@@ -7,12 +7,12 @@ class ComplaintForm(forms.Form):
 
    	addressed_to = forms.ChoiceField(
         choices=(
-            ("warden", "Warden"),
-            ("staff", "Hall Staff"),
-			("dosa", "DOSA"),
-			("hec", "HEC"),
-            ),
+            ("Warden", "Warden"),
+            ("Staff", "Hall Staff"),
+			("Dosa", "DOSA"),
+			("Hec", "HEC"),
+            ),widget=forms.Select
         )
-	complaint_type = forms.CharField(max_length=20)
-	details = forms.CharField(max_length=500,widget=forms.Textarea)
+	complaint_type = forms.CharField(max_length=20,widget=forms.TextInput())
+	details = forms.CharField(max_length=500,widget=forms.Textarea())
 

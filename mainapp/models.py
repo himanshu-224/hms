@@ -24,25 +24,25 @@ post_save.connect(create_user_profile, sender=User )
 
 class Request(models.Model):
 	isAccepted_CHOICES = (
-		(0, u'Accepted'),
-		(1, u'Rejected'),
-		(2, u'Pending'),
+		('Accepted', u'Accepted'),
+		('Rejected', u'Rejected'),
+		('Pending', u'Pending'),
 	)
 	requester_id = models.CharField(max_length=30)
-	addressedto_id = models.CharField(max_length=20)
-	forwardto_id = models.CharField(max_length=20)
-	request_timestamp = models.DateField(max_length=20)
-	request_type = models.CharField(max_length=20)
-	details = models.CharField(max_length=20)
-	status = models.CharField(max_length=20)
-	reason = models.CharField(max_length=20)
-	isAccepted = models.IntegerField(max_length=3, choices=isAccepted_CHOICES, default=2)
+	addressedto_id = models.CharField(max_length=30)
+	forwardto_id = models.CharField(max_length=30,default='')
+	request_timestamp = models.DateField(max_length=30)
+	request_type = models.CharField(max_length=30)
+	details = models.CharField(max_length=500)
+	status = models.CharField(max_length=200,default='')
+	reason = models.CharField(max_length=200,default='')
+	isAccepted = models.CharField(max_length=10, choices=isAccepted_CHOICES,default='Pending')
 
 class Complaint(models.Model):
 	isAccepted_CHOICES = (
-		(0, u'Accepted'),
-		(1, u'Rejected'),
-		(2, u'Pending'),
+		('Accepted', u'Accepted'),
+		('Rejected', u'Rejected'),
+		('Pending', u'Pending'),
 	)
 	complainee_id = models.CharField(max_length=30)
 	addressedto_id = models.CharField(max_length=30)
@@ -52,23 +52,23 @@ class Complaint(models.Model):
 	details = models.CharField(max_length=500)
 	status = models.CharField(max_length=200,default='')
 	reason = models.CharField(max_length=200,default='')
-	isAccepted = models.IntegerField(max_length=3, choices=isAccepted_CHOICES,default=2)
+	isAccepted = models.CharField(max_length=10, choices=isAccepted_CHOICES,default='Pending')
 	
 class DuesItem(models.Model):
 	isApproved_CHOICES = (
-		(0, u'Accepted'),
-		(1, u'Rejected'),
-		(2, u'Pending'),
+		('Accepted', u'Accepted'),
+		('Rejected', u'Rejected'),
+		('Pending', u'Pending'),
 	)
 	payee_id = models.CharField(max_length=30)
 	duesitem_type = models.CharField(max_length=30)
 	amount = models.IntegerField(max_length=30)
 	submission_timestamp = models.DateField(max_length=30)
-	duesdetails = models.CharField(max_length=30)
-	status = models.CharField(max_length=30)
+	duesdetails = models.CharField(max_length=500,default='')
+	status = models.CharField(max_length=200,default='')
 	paymentInfo = models.CharField(max_length=30)
-	isApproved_staff = models.CharField(max_length=30, choices=isApproved_CHOICES)
-	isApproved_warden = models.CharField(max_length=30, choices=isApproved_CHOICES)
+	isApproved_staff = models.CharField(max_length=10, choices=isApproved_CHOICES,default='Pending')
+	isApproved_warden = models.CharField(max_length=10, choices=isApproved_CHOICES,default='Pending')
 	
 class InventoryItem(models.Model):
 	item_id = models.CharField(max_length=10)

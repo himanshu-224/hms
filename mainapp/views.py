@@ -46,17 +46,17 @@ def add_complaint(request):
             if not layout:
                 layout = 'vertical'
             if request.method == 'POST':
-                form = ComplaintForm(request.POST)
-		if form.is_valid():
-                    at = form.cleaned_data['addressed_to']
-		    ct = form.cleaned_data['complaint_type']
-		    dt = form.cleaned_data['details']
-		    Cmp=Complaint(complainee_id=request.user.username,addressedto_id=at, complaint_type=ct,details=dt,complaint_timestamp=datetime.date.today(),)
-		    Cmp.save()
-		    return HttpResponseRedirect('/accounts/profile')
+				form = ComplaintForm(request.POST)
+				if form.is_valid():
+					at = form.cleaned_data['addressed_to']
+					ct = form.cleaned_data['complaint_type']
+					dt = form.cleaned_data['details']
+					Cmp=Complaint(complainee_id=request.user.username,addressedto_id=at, complaint_type=ct,details=dt,complaint_timestamp=datetime.date.today(),)
+					Cmp.save()
+					return HttpResponseRedirect('/accounts/profile')
             else:
                 form = ComplaintForm()
-            return render_to_response('form_complaint.html', RequestContext(request, {
+            return render_to_response('student/form_complaint.html', RequestContext(request, {
             'form': form,
             'layout': layout,
             }))

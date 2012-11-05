@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from django.contrib.auth.views import login, logout
+from django.contrib.auth.views import login,logout
 from mainapp.simple import direct_to_template
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -13,7 +13,10 @@ url(r'^admin/', include(admin.site.urls)),
 (r'^accounts/register/$','mainapp.views.register'),
 
 (r'^student/viewComplaint/$','mainapp.views.view_complaints'),
-(r'^student/addComplaint$','mainapp.views.add_complaint'),
+(r'^student/addComplaint/$','mainapp.views.add_complaint'),
+
+(r'^staff/viewComplaints/$','mainapp.staffViews.view_complaints'),
+(r'^staff/actOnComplaint/id=(\d+)$','mainapp.staffViews.act_on_complaint'),
     
     (r'^$', direct_to_template, {'template': 'index.html'}, "home"),
     
