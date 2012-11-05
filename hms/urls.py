@@ -1,33 +1,25 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import login, logout
-from mainapp.views import profile, register, view_complaints_student, complain_form
 from mainapp.simple import direct_to_template
-
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',(r'^accounts/login/$', login),
+urlpatterns = patterns('',
+url(r'^admin/', include(admin.site.urls)),
+(r'^accounts/login/$', login),
 (r'^accounts/logout/$', logout,{'template_name' : 'registration/logout.html'}),
-(r'^accounts/profile/$', profile),
-(r'^accounts/register/$',register),
-(r'^student/viewComplaint/$',view_complaints_student),
-    # Examples:
-    # url(r'^$', 'hms.views.home', name='home'),
-    # url(r'^hms/', include('hms.foo.urls')),
+(r'^accounts/profile/$', 'mainapp.views.profile'),
+(r'^accounts/register/$','mainapp.views.register'),
 
-    #Uncomment the admin/doc line below to enable admin documentation:
-    #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    #Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
+(r'^student/viewComplaint/$','mainapp.views.view_complaints'),
+(r'^student/addComplaint$','mainapp.views.add_complaint'),
     
     (r'^$', direct_to_template, {'template': 'index.html'}, "home"),
     
     (r'^profile$','test_bootstrap.views.profile_form'),
 
-	(r'^student/addComplaint$','mainapp.views.complain_form'),
- 
+
     (r'^testurl$',direct_to_template,{'template':'contact.html'},"testurl"),
     
 #    (r'^contact$', direct_to_template, {'template': 'contact.html'}, "contact"),

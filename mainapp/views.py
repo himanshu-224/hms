@@ -5,7 +5,6 @@ from mainapp.forms import ComplaintForm
 from django.template.context import RequestContext
 from django.contrib.auth.forms import UserCreationForm
 from mainapp.models import Complaint
-
 import datetime
 
 def profile(request):
@@ -27,7 +26,7 @@ def register(request):
 		data, errors = {}, {}
 	return render_to_response("registration/register.html")
 
-def view_complaints_student(request):
+def view_complaints(request):
 	if request.user.is_authenticated() and request.user.get_profile().userType==0:
 		myComplaints= Complaint.objects.filter(complainee_id=request.user.username)
 		for i in myComplaints:
@@ -41,7 +40,7 @@ def view_complaints_student(request):
 		
 
 
-def complain_form(request):
+def add_complaint(request):
 	if request.user.is_authenticated() and request.user.get_profile().userType==0:
             layout = request.GET.get('layout')
             if not layout:
