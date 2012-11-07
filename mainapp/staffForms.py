@@ -5,7 +5,7 @@ from django.forms import ModelForm
 from django.forms import Textarea
 
 
-class StaffComplaintForm(ModelForm):
+class ComplaintForm(ModelForm):
 
 	Choices1=(
         ("Warden", "Warden"),

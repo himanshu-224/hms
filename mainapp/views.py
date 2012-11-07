@@ -1,10 +1,13 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.http import HttpResponseRedirect
-#from django import oldforms as forms
-from mainapp.forms import ComplaintForm
+from django_tables2   import RequestConfig
 from django.template.context import RequestContext
 from django.contrib.auth.forms import UserCreationForm
+
 from mainapp.models import Complaint
+from mainapp.studentForms import ComplaintForm
+from mainapp.studentTables import ComplaintTable
+
 import datetime
 
 def profile(request):
@@ -28,18 +31,15 @@ def register(request):
 
 def view_complaints(request):
 	if request.user.is_authenticated() and request.user.get_profile().userType==0:
-		myComplaints= Complaint.objects.filter(complainee_id=request.user.username)
-		for i in myComplaints:
-			i.isAccepted=i.get_isAccepted_display()
-		context={'complaints' : myComplaints}
-		return render_to_response("student/viewComplaint.html",context)
+		table = ComplaintTable(Complaint.objects.filter(complainee_id=request.user.username))
+		RequestConfig(request).configure(table)
+		return render(request, 'student/viewComplaint.html', {'table': table})
+		
 	elif not request.user.is_authenticated():
 		return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
 	else:
 		return HttpResponseRedirect('/accounts/profile')
 		
-
-
 def add_complaint(request):
 	if request.user.is_authenticated() and request.user.get_profile().userType==0:
             layout = request.GET.get('layout')
@@ -48,7 +48,7 @@ def add_complaint(request):
             if request.method == 'POST':
 				form = ComplaintForm(request.POST)
 				if form.is_valid():
-					at = form.cleaned_data['addressed_to']
+					at = form.cleaned_data['addressedto_id']
 					ct = form.cleaned_data['complaint_type']
 					dt = form.cleaned_data['details']
 					Cmp=Complaint(complainee_id=request.user.username,addressedto_id=at, complaint_type=ct,details=dt,complaint_timestamp=datetime.date.today(),)
@@ -65,3 +65,18 @@ def add_complaint(request):
 	else:
             return HttpResponseRedirect('/accounts/profile')
 
+
+def delete_complaint(request,id):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+	    layout = request.GET.get('layout')
+	    if not layout:
+		layout = 'vertical'
+		complaints=Complaint.objects.get(pk=id)
+		if complaints.complainee_id == request.user.username:
+			complaints.delete()
+		return HttpResponseRedirect('/student/viewComplaint')
+
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')

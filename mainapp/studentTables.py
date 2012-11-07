@@ -3,7 +3,8 @@ from mainapp.models import Complaint
 from django_tables2.utils import A  # alias for Accessor
 
 class ComplaintTable(tables.Table):
-	id = tables.LinkColumn('act_on_complaint_staff', args=[A('pk')])
+	id = tables.Column()
+	id = tables.LinkColumn('delete_complaint', args=[A('pk')], verbose_name='ID (Delete)')
 	details = tables.Column(orderable=False)
 	status = tables.Column(verbose_name="Status Details",orderable=False)
 	reason = tables.Column(orderable=False)

@@ -16,10 +16,15 @@ url(r'^admin/', include(admin.site.urls)),
 
 (r'^student/viewComplaint/$','mainapp.views.view_complaints'),
 (r'^student/addComplaint/$','mainapp.views.add_complaint'),
+url('^student/deleteComplaint/id=(\d+)$', 'mainapp.views.delete_complaint', name='delete_complaint'),
 
 (r'^staff/viewComplaints/$','mainapp.staffViews.view_complaints'),
-url('^staff/actOnComplaint/id=(\d+)$', 'mainapp.staffViews.act_on_complaint', name='act_on_complaint'),
+url('^staff/actOnComplaint/id=(\d+)$', 'mainapp.staffViews.act_on_complaint', name='act_on_complaint_staff'),
+
+(r'^warden/viewComplaints/$','mainapp.wardenViews.view_complaints'),
+url('^warden/actOnComplaint/id=(\d+)$', 'mainapp.wardenViews.act_on_complaint', name='act_on_complaint_warden'),
  
     (r'^$', direct_to_template, {'template': 'index.html'}, "home"),
 )
+
 

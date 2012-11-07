@@ -3,7 +3,7 @@ from mainapp.models import Complaint
 from django_tables2.utils import A  # alias for Accessor
 
 class ComplaintTable(tables.Table):
-	id = tables.LinkColumn('act_on_complaint_staff', args=[A('pk')])
+	id = tables.LinkColumn('act_on_complaint_warden', args=[A('pk')])
 	details = tables.Column(orderable=False)
 	status = tables.Column(verbose_name="Status Details",orderable=False)
 	reason = tables.Column(orderable=False)

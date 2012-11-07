@@ -3,8 +3,7 @@ from django.contrib.auth.models import User
 
 
 class ComplaintForm(forms.Form):
-
-   	addressed_to = forms.ChoiceField(
+   	addressedto_id = forms.ChoiceField(
         choices=(
             ("Warden", "Warden"),
             ("Staff", "Hall Staff"),
@@ -12,6 +11,6 @@ class ComplaintForm(forms.Form):
 			("Hec", "HEC"),
             ),widget=forms.Select
         )
-	complaint_type = forms.CharField(max_length=20,widget=forms.TextInput())
-	details = forms.CharField(max_length=500,widget=forms.Textarea())
+	complaint_type = forms.CharField(max_length=100,widget=forms.TextInput)
+	details = forms.CharField(max_length=500,widget=forms.Textarea())  
 
