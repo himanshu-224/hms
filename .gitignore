@@ -1,2 +1,3 @@
 /hms/settings.py
 *.pyc
+/hms/sqlinfo.txt
