@@ -239,6 +239,3 @@ class Message(models.Model):
 
 
 
-	
-
-# Create your models here.
