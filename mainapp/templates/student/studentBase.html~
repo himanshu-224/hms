@@ -1,0 +1,53 @@
+
+
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block menu_css %}
+<style>
+#navigation{ background:url('images/nav-bg.gif') repeat-x; width:600px; height:52px; font-family: arial; }
+#navigation ul{ margin:0; padding: 0;}
+#navigation ul li{ background: url('images/devider.gif') no-repeat top right; display:inline; height: 52px; list-style:none; float:left; }
+	#navigation ul li.last{ background: none;}
+#navigation li a{ color:#ccc; text-decoration: none; line-height:3.2em; display:block; padding:0px 30px; }
+#navigation li a:hover{ color:#fff;}
+#navigation li ul{ display:none;}
+#navigation ul li ul li{ display: block; background:#4D4D4D; float:none; border-top:1px solid #373737; margin-bottom:-3px}
+#navigation ul li:hover ul, #navigation ul li:focus ul{ position:relative; display:block;}
+</style>
+{% endblock %}
+{% block style %} {% endblock %}
+<body>
+
+{% block menu %}
+<div id="navigation">
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a>
+			<ul>
+				<li><a href="#">Sub Link</a></li>
+				<li><a href="#">Sub Link</a></li>
+				<li><a href="#">Sub Link</a></li>
+			</ul>		
+		</li>
+        <li><a href="#">Services</a>
+			<ul>
+				<li><a href="#">Sub Link</a></li>
+				<li><a href="#">Sub Link</a></li>
+				<li><a href="#">Sub Link</a></li>
+				<li><a href="#">Sub Link</a></li>
+			</ul>	
+		</li>
+        <li><a href="#">Clients</a></li>
+        <li class="last"><a href="#">Contact Us</a></li>
+    </ul>
+</div>
+
+{% endblock %}
+{% block content %}{% endblock %}
+{% block footer %}
+{% endblock %}
+</body>
+</html>
+
+
+

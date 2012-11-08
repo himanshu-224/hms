@@ -71,7 +71,7 @@ def add_complaint(request):
 					dt = form.cleaned_data['details']
 					Cmp=Complaint(complainee_id=request.user.username,addressedto_id=at, complaint_type=ct,details=dt,complaint_timestamp=datetime.date.today(),)
 					Cmp.save()
-					return HttpResponseRedirect('/student/home')
+					return HttpResponseRedirect('student/home')
             else:
                 form = ComplaintForm()
             return render_to_response('student/form_complaint.html', RequestContext(request, {

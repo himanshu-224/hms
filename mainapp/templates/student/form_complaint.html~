@@ -1,14 +1,13 @@
-{% extends "warden/base.html" %}
-{% block title %}Act on Complaint{% endblock %}
+{% extends "base.html" %}
+{% block title %}Add Complaint{% endblock %}
 
 {% block content %}
     
 <p>&nbsp;</p>
-     
+        
 <form action="" method="post">{% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>
-
 
 {% endblock %}

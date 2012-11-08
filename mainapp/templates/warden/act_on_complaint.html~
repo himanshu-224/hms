@@ -1,4 +1,4 @@
-{% extends "warden/base.html" %}
+{% extends "base.html" %}
 {% block title %}Act on Complaint{% endblock %}
 
 {% block content %}
