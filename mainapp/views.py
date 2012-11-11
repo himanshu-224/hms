@@ -10,7 +10,7 @@ from mainapp.studentTables import ComplaintTable
 
 import datetime
 
-userTypes={0:'student', 1:'hec',2:'staff',3:'warden', 4:'dosa', 5:'senate'}
+userTypes={0:'student', 1:'hec',2:'staff',3:'dosa', 4:'dosa', 5:'senate'}
 
 def homepage(request,template_name):
 	if request.user.is_authenticated():

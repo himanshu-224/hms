@@ -19,20 +19,20 @@
 {% block menu %}
 <div id="navigation">
     <ul>
-        <li><a href="/dosa/home/">Home</a></li>
+        <li><a href="/warden/home/">Home</a></li>
         <li><a href="#">Complaints</a>
 			<ul>
-				<li><a href="/dosa/viewComplaints/">View Complaints</a></li>
+				<li><a href="/warden/viewComplaints/">View Complaints</a></li>
 			</ul>		
 	</li>
         <li><a href="#">Requests</a>
 			<ul>
-				<li><a href="/dosa/viewRequests/">View Requests</a></li>
+				<li><a href="/warden/viewRequests/">View Requests</a></li>
 			</ul>	
 	</li>
         <li><a href="#">Dues</a>
 			<ul>
-				<li><a href="/dosa/viewDues/">View Dues</a></li>
+				<li><a href="/warden/viewDues/">View Dues</a></li>
 			</ul>	
 	</li>
 

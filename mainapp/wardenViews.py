@@ -13,7 +13,7 @@ import datetime
 
 def view_complaints(request):
 	if request.user.is_authenticated() and request.user.get_profile().userType==3:
-		table = ComplaintTable(Complaint.objects.filter(addressedto_id='warden'))
+		table = ComplaintTable(Complaint.objects.filter(addressedto_id='warden')|Complaint.objects.filter(forwardto_id='warden'))
 		RequestConfig(request).configure(table)
 		return render(request, 'warden/viewComplaint.html', {'table': table})
 	elif not request.user.is_authenticated():

@@ -28,9 +28,13 @@ url('^staff/actOnComplaint/id=(\d+)$', 'mainapp.staffViews.act_on_complaint', na
 (r'^warden/viewComplaints/$','mainapp.wardenViews.view_complaints'),
 url('^warden/actOnComplaint/id=(\d+)$', 'mainapp.wardenViews.act_on_complaint', name='act_on_complaint_warden'),
 
+
+
 (r'^hec/home/$','mainapp.views.homepage',{'template_name' : 'hec/home.html'}),
 
 (r'^dosa/home/$','mainapp.views.homepage',{'template_name' : 'dosa/home.html'}),
+(r'^dosa/viewComplaints/$','mainapp.dosaViews.view_complaints'),
+url('^dosa/actOnComplaint/id=(\d+)$', 'mainapp.dosaViews.act_on_complaint', name='act_on_complaint_dosa'),
 
 (r'^senate/home/$','mainapp.views.homepage',{'template_name' : 'senate/home.html'}),
  
