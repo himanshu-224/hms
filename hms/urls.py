@@ -34,7 +34,15 @@ url('^warden/viewPolicies/$', 'mainapp.views.view_policies', name = 'view_polici
 
 
 (r'^hec/home/$','mainapp.views.homepage',{'template_name' : 'hec/home.html'}),
-url('^hec/viewPolicies/$', 'mainapp.views.view_policies', name = 'view_policies'), 
+url('^hec/viewPolicies/$', 'mainapp.hecViews.view_policies', name = 'view_policies'), 
+url('^hec/createBoudget/$', 'mainapp.hecViews.create_boudget'),
+url('^hec/modifyBoudget/id=(\d+)$', 'mainapp.hecViews.view_boudget'),
+url('^hec/createMessMenu/$', 'mainapp.hecViews.create_mess_menu'),
+url('^hec/modifyMessMenu/id=(\d+)$', 'mainapp.hecViews.modify_mess_menu'),
+url('^hec/createMessBill/$', 'mainapp.hecViews.create_mess_bill'),
+url('^hec/modifyMessBill/id=(\d+)$', 'mainapp.hecViews.modify_mess_bill'),
+url('^hec/arrangeMeeting/$', 'mainapp.hecViews.arrange_meeting'),
+url('^hec/modifyMeeting/id=(\d+)$', 'mainapp.hecViews.modify_meeting'),
 
 (r'^dosa/home/$','mainapp.views.homepage',{'template_name' : 'dosa/home.html'}),
 (r'^dosa/viewComplaints/$','mainapp.dosaViews.view_complaints'),
