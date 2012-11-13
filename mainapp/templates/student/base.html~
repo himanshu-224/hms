@@ -23,13 +23,13 @@
         <li><a href="#">Complaints</a>
 			<ul>
 				<li><a href="/student/addComplaint/">Add Complaint</a></li>
-				<li><a href="/student/viewComplaint/">Check Status</a></li>
+				<li><a href="/student/viewComplaints/">Check Status</a></li>
 			</ul>		
 	</li>
         <li><a href="#">Requests</a>
 			<ul>
 				<li><a href="/student/addRequest/">Add Request</a></li>
-				<li><a href="/student/viewRequest/">Check Status</a></li>
+				<li><a href="/student/viewRequests/">Check Status</a></li>
 			</ul>	
 	</li>
         <li><a href="#">Dues</a>
@@ -38,6 +38,12 @@
 				<li><a href="/student/viewDues/">Check Status</a></li>
 			</ul>	
 	</li>
+       <li><a href="#">Hall Policies</a>
+            <ul>
+                <li><a href="/student/viewPolicies/">View Policies</a></li>
+            </ul>
+     </li>
+     
 
         <li><a href="#">Clients</a></li>	
     </ul>
