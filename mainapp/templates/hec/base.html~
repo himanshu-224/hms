@@ -42,7 +42,8 @@
 		<li><a href="/hec/viewItem/">View Inventory</a></li>
 		<li><a href="/hec/returnItem/">Return Item</a></li>
             </ul>
-	
+
+        <li><a href="#">Clients</a></li>	
     </ul>
 
 </div>
