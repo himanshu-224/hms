@@ -1,0 +1,13 @@
+{% extends "student/base.html" %}
+{% block title %}Add Complaint{% endblock %}
+
+{% block content %}
+    
+<p>&nbsp;</p>
+        
+<form action="" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="send" value="Submit" />
+</form>
+
+{% endblock %}

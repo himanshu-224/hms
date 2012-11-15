@@ -4,15 +4,19 @@ from django_tables2   import RequestConfig
 from django.template.context import RequestContext
 from django.contrib.auth.forms import UserCreationForm
 
-from mainapp.models import Complaint
-from mainapp.studentForms import ComplaintForm
+from mainapp.tables import *
+from mainapp.models import *
+from mainapp.forms import *
+
+
+from mainapp.studentForms import ComplaintForm	
 from mainapp.studentTables import ComplaintTable
 
-from mainapp.models import Policy
+
 
 import datetime
 
-userTypes={0:'student', 1:'hec',2:'staff',3:'dosa', 4:'dosa', 5:'senate'}
+userTypes={0:'student', 1:'hec',2:'staff',3:'warden', 4:'dosa', 5:'senate'}
 
 def homepage(request,template_name):
 	if request.user.is_authenticated():
@@ -84,7 +88,8 @@ def add_complaint(request):
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
 	else:
             return HttpResponseRedirect('/accounts/profile')
-
+            
+         
 
 def delete_complaint(request,id):
 	if request.user.is_authenticated() and request.user.get_profile().userType==0:
@@ -100,23 +105,142 @@ def delete_complaint(request,id):
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
 	else:
             return HttpResponseRedirect('/accounts/profile')
+            
 
-def view_policies(request):
+
+def add_complaint(request):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+            layout = request.GET.get('layout')
+            if not layout:
+                layout = 'vertical'
+            if request.method == 'POST':
+				form = ComplaintForm(request.POST)
+				if form.is_valid():
+					at = form.cleaned_data['addressedto_id']
+					ct = form.cleaned_data['complaint_type']
+					dt = form.cleaned_data['details']
+					Cmp=Complaint(complainee_id=request.user.username,addressedto_id=at, complaint_type=ct,details=dt,complaint_timestamp=datetime.date.today(),)
+					Cmp.save()
+					return HttpResponseRedirect('/student/home')
+            else:
+                form = ComplaintForm()
+            return render_to_response('student/form_complaint.html', RequestContext(request, {
+            'form': form,
+            'layout': layout,
+            }))
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')
+
+'''
+Messages Functionalities
+'''
+def inbox(request):
 	if request.user.is_authenticated():
-		policies = Policy.objects.filter(status='APP')
-		usr = request.user.get_profile().userType
-		if usr == 0:
-			return render_to_response('student/viewPolicy.html', {'policies': policies})
-		elif usr == 1:
-			return render_to_response('hec/viewPolicy.html', {'policies': policies})
-		elif usr == 2:
-			return render_to_response('staff/viewPolicy.html', {'policies': policies})
-		elif usr == 3:
-			return render_to_response('warden/viewPolicy.html', {'policies': policies})
-		elif usr == 4:
-			return render_to_response('dosa/viewPolicy.html', {'policies': policies})
-		else:
-			return render_to_response('senate/viewPolicy.html', {'policies': policies})
+		table = inboxTable(inboxMessage.objects.filter(receiverlist=request.user.username))
+		RequestConfig(request).configure(table)
+		for i in range(len(userTypes)):
+			if request.user.get_profile().userType==i:
+				return render(request, userTypes[i]+'/inbox.html', {'table': table})		
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+
+def outbox(request):
+	if request.user.is_authenticated():
+		table = outboxTable(outboxMessage.objects.filter(sender=request.user.username))
+		RequestConfig(request).configure(table)
+		for i in range(len(userTypes)):
+			if request.user.get_profile().userType==i:
+				return render(request, userTypes[i]+'/outbox.html', {'table': table})		
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+		
+
+def compose_message(request):
+	if request.user.is_authenticated():
+            layout = request.GET.get('layout')
+            if not layout:
+                layout = 'vertical'
+            if request.method == 'POST':
+				form = MessageForm(request.POST)
+				if form.is_valid():
+					at = form.cleaned_data['To']
+					ct = form.cleaned_data['subject']
+					dt = form.cleaned_data['message']
+					Cmp=inboxMessage(sender=request.user.username,receiverlist=at, subject=ct,message=dt,timestamp=datetime.date.today(),)
+					Cmp.save()
+					Cmp=outboxMessage(sender=request.user.username,receiverlist=at, subject=ct,message=dt,timestamp=datetime.date.today(),)
+					Cmp.save()
+					for i in range(len(userTypes)):
+						if request.user.get_profile().userType==i:
+							return HttpResponseRedirect('/'+userTypes[i]+'/outbox')
+            else:
+                form = MessageForm()
+                for i in range(len(userTypes)):
+						if request.user.get_profile().userType==i:
+							return render_to_response(userTypes[i]+'/compose_message.html', RequestContext(request, {
+							'form': form,
+							'layout': layout,
+							}))
+				
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')
+
+def show_message(request,id):
+	if request.user.is_authenticated():
+	    layout = request.GET.get('layout')
+	    if not layout:
+		layout = 'vertical'
+		m=inboxMessage.objects.get(pk=id)
+		#m=outboxMessage.objects.get(pk=id[0])
+		subject=m.subject
+		msg=m.message
+		timestamp=m.timestamp
+		m.isRead='read'
+		m.save()
+		#msg=inboxMessage(sender=m.sender,receiverlist=m.receiverlist,subject=m.subject,message=m.message,timestamp=m.timestamp,m.isRead='read')
+		#msg.save()
+		for i in range(len(userTypes)):
+						if request.user.get_profile().userType==i:
+							return render_to_response(userTypes[i]+'/show_message.html', RequestContext(request, {
+							'sender':m.sender,
+							'subject':m.subject,
+							'timestamp':m.timestamp,
+							'message':m.message
+							}))		
+
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')
+
+		
+def delete_message(request,id):
 	
+	if request.user.is_authenticated():
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		messages=inboxMessage.objects.get(pk=id)
+		messages.delete() 
+		for i in range(len(userTypes)):
+			if request.user.get_profile().userType==i:
+				return HttpResponseRedirect('/'+userTypes[i]+'/inbox')
+			'''messages=outboxMessage.objects.get(pk=id)
+			messages.delete() 
+			for i in range(len(userTypes)):
+				if request.user.get_profile().userType==i:
+					return HttpResponseRedirect('/'+userTypes[i]+'/outbox')'''
 
-
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')

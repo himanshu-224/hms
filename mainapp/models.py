@@ -231,17 +231,34 @@ class HallGuest(models.Model):
 	staying_from = models.DateField(max_length=10)
 	staying_till = models.DateField(max_length=10)
 	
-class Message(models.Model):
+class inboxMessage(models.Model):
 	isRead_CHOICES = (
-		(0, u'Unread'),
-		(1, u'Read'),
+		('unread', u'Unread'),
+		('read', u'Read'),
 	)
-	sender = models.CharField(max_length=10)
-	receiver = models.CharField(max_length=10)
-	subject = models.CharField(max_length=10)
-	message = models.CharField(max_length=20)
-	timestamp = models.DateField(max_length=10)
-	isRead = models.IntegerField(max_length=10, choices=isRead_CHOICES)
+	button="DELETE"
+	sender = models.CharField(max_length=30)
+	receiverlist = models.CharField(max_length=30*11)
+	subject = models.CharField(max_length=50,default='')
+	message = models.CharField(max_length=500)
+	timestamp = models.DateField(max_length=10) ##NEED TO MODIFY TO TILL SECOND
+	isRead = models.CharField(max_length=10, choices=isRead_CHOICES,default='unread')
 
+
+class outboxMessage(models.Model):
+	button="DELETE"
+	sender = models.CharField(max_length=30)
+	receiverlist = models.CharField(max_length=30*11)
+	subject = models.CharField(max_length=50,default='')
+	message = models.CharField(max_length=500)
+	timestamp = models.DateField(max_length=10) ##NEED TO MODIFY TO TILL SECONDSSS
+	
+
+class draftMessage(models.Model):
+	sender = models.CharField(max_length=30)
+	receiverlist = models.CharField(max_length=30*11,default='')
+	subject = models.CharField(max_length=50,default='')
+	message = models.CharField(max_length=500)
+	timestamp = models.DateField(max_length=10) ##NEED TO MODIFY TO TILL SECONDSSS
 
 

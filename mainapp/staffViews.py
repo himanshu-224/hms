@@ -25,7 +25,7 @@ def view_complaints(request):
 
 
 def act_on_complaint(request,id):
-	if request.user.is_authenticated() and (request.user.get_profile().userType==2 or request.user.get_profile().userType==3):
+	if request.user.is_authenticated() and request.user.get_profile().userType==2:
 	    layout = request.GET.get('layout')
 	    if not layout:
 		layout = 'vertical'
