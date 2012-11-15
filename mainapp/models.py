@@ -85,11 +85,18 @@ class InventoryItem(models.Model):
 	
 	
 class InventoryIssue(models.Model):
+	isReturned_CHOICES = (
+        ('Yes', u'Yes'),
+        ('No', u'No'),
+	)    
 	item_id = models.ForeignKey(InventoryItem)
 	issuer_id = models.ForeignKey(User)
 	issue_timestamp = models.DateField(max_length=10)
+	return_timestamp = models.DateField(max_length=10)
 	issued_duration = models.FloatField(default=0)
+	isReturned=models.CharField(max_length=10, choices=isReturned_CHOICES,default='No')
 	Return=models.CharField(max_length=7,default="Return")
+	fine=models.FloatField(default=0)
 	
 	
 class Activity(models.Model):

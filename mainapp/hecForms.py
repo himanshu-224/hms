@@ -12,7 +12,8 @@ class AddItemForm(ModelForm):
 class IssueItemForm(ModelForm):
     class Meta:
         model = InventoryIssue
-        exclude=('issue_timestamp','issued_duration','Return','item_id')
+        #exclude=('issue_timestamp','issued_duration','Return','item_id')
+        fields=('issuer_id',)
        
         
    

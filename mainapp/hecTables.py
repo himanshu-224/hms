@@ -25,8 +25,10 @@ class InventoryIssueTable(tables.Table):
     item_id = tables.Column(verbose_name="Item Id")
     issuer_id = tables.Column(verbose_name="Issuer Id")
     issue_timestamp = tables.Column(verbose_name="Issued on")
+    return_timestamp = tables.Column(verbose_name="Returned on")
     issued_duration=tables.Column(verbose_name="No of days")
-#    fine=tables.Column(verbose_name="Fine")
+    isReturned = tables.Column(verbose_name="Is Returned")
+    fine=tables.Column(verbose_name="Fine")
     
     class Meta:
         model = InventoryIssue

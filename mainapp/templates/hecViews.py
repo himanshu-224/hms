@@ -82,7 +82,7 @@ def issue_item(request,id):
                         at = form.cleaned_data['issuer_id']
                         item.no_issued+=1
                         item.save()
-                        data=InventoryIssue(issuer_id=at,item_id=item,issue_timestamp=datetime.date.today(), return_timestamp=datetime.date.today())
+                        data=InventoryIssue(issuer_id=at,item_id=item,issue_timestamp=datetime.date.today())
                         data.save()
                         return HttpResponseRedirect('/hec/viewItem')
                 else:
@@ -118,7 +118,7 @@ def delete_item(request,id):
             
 def return_item(request,id):
     if request.user.is_authenticated() and request.user.get_profile().userType==1:
-        item=InventoryItem.objects.get(item_id=id)
+        complaints=Complaint.objects.get(pk=id)
         if complaints.complainee_id == request.user.username and complaints.isAccepted=='Pending':
             complaints.delete()
         return HttpResponseRedirect('/student/viewComplaints')
@@ -132,12 +132,13 @@ def issued_status(request,id):
     if request.user.is_authenticated() and request.user.get_profile().userType==1:
         item=InventoryItem.objects.get(item_id=id)
         issuedItems=InventoryIssue.objects.filter(item_id=item)
-        table=InventoryIssueTable(issuedItems)
-        RequestConfig(request).configure(table)
-        return render(request, 'hec/view_item.html', {'table': table})
+        if complaints.complainee_id == request.user.username and complaints.isAccepted=='Pending':
+            complaints.delete()
+        return HttpResponseRedirect('/student/viewComplaints')
+
     elif not request.user.is_authenticated():
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
     else:
-            return HttpResponseRedirect('/accounts/profile')           
+            return HttpResponseRedirect('/accounts/profile')              
             
 
