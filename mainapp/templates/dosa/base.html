@@ -4,7 +4,7 @@
 {% block title %}{% endblock %}
 {% block menu_css %}
 <style>
-#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:800px; height:52px; font-family: arial; }
+#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:900px; height:52px; font-family: arial; }
 #navigation ul{ margin:0; padding: 0;}
 #navigation ul li{ background: url('static/images/devider.gif') no-repeat top right; display:inline; height: 52px; list-style:none; float:left; }
 #navigation li a{ color:#ccc; text-decoration: none; line-height:3.2em; display:block; padding:0px 30px; }
@@ -19,31 +19,42 @@
 {% block menu %}
 <div id="navigation">
     <ul>
-        <li><a href="/dosa/home/">Home</a></li>
+        <li><a href="/warden/home/">Home</a></li>
         <li><a href="#">Complaints</a>
 			<ul>
-				<li><a href="/dosa/viewComplaints/">View Complaints</a></li>
+				<li><a href="/warden/viewComplaints/">View Complaints</a></li>
 			</ul>		
 	</li>
         <li><a href="#">Requests</a>
 			<ul>
-				<li><a href="/dosa/viewRequests/">View Requests</a></li>
+				<li><a href="/warden/viewRequests/">View Requests</a></li>
 			</ul>	
 	</li>
         <li><a href="#">Dues</a>
 			<ul>
-				<li><a href="/dosa/viewDues/">View Dues</a></li>
+				<li><a href="/warden/viewDues/">View Dues</a></li>
 			</ul>	
 	</li>
-        <li><a href="#">Hall Policies</a>
-            <ul>
-                <li><a href="/dosa/viewPolicies/">View Policies</a></li>
-                <li><a href="/dosa/viewPolicyRequests/">Pending Requests</a></li>
-                <li><a href="/dosa/createNewPolicy/">Create Policy</a></li>
-                <li><a href="/dosa/modifyExistingPolicy/">Change Policy</a></li>
-            </ul>
-     </li>
-        <li><a href="#">Clients</a></li>	
+        
+		 <li><a href="#">Notification</a>
+			<ul>
+				<li><a href="/dosa/notifications/view/">View Notifications</a></li>
+				<li><a href="/dosa/notifications/send/">Send Notification</a></li>
+			</ul>
+        
+        </li>
+        
+        
+        <li><a href="#">Messages</a>
+			<ul>
+				<li><a href="/dosa/inbox">Inbox</a></li>
+				<li><a href="/dosa/outbox">Outbox</a></li>
+				<li><a href="/dosa/compose">Compose</a></li></li>
+			</ul>
+        
+        </li>       
+        	
+         <li><a href="/accounts/logout/">Logout </a></li>
     </ul>
 </div>
 

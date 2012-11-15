@@ -1,0 +1,11 @@
+{% extends "student/base.html" %}
+{% block title %}Message{% endblock %}
+{% block content %}
+<br><br>
+<center>{{timestamp}}</center>
+<h4>From:	<font color='blue'>{{sender}}</font> </h4>
+<h4>Subject:	{{subject}}</h4>
+<h4>Message:</h4>
+<p>		{{message}}</p>
+{% endblock %}
+
