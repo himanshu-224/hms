@@ -27,7 +27,6 @@ class UpdateInfoForm(forms.ModelForm) :
 	class Meta:
 		model=User
 		fields=('first_name','last_name','email')
-
 class MessageForm(forms.Form):
 	To = forms.CharField(max_length=30*11,widget=forms.TextInput)
 	subject= forms.CharField(max_length=100,widget=forms.TextInput)

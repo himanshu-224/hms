@@ -8,12 +8,8 @@ from mainapp.tables import *
 from mainapp.models import *
 from mainapp.forms import *
 
-
-from mainapp.studentForms import ComplaintForm	
-from mainapp.studentTables import ComplaintTable
-from mainapp.forms import UpdateInfoForm
-from mainapp.models import Policy
-#from mainapp.models import UserProfile
+from mainapp.studentForms import ComplaintForm,DuesForm
+from mainapp.studentTables import ComplaintTable,DuesTable
 from django.contrib.auth.models import User
 import datetime
 
@@ -85,7 +81,6 @@ def update_info(request) :
 		return HttpResponseRedirect('/accounts/profile')
 		
 	
-
 def view_complaints(request):
 	if request.user.is_authenticated() and request.user.get_profile().userType==0:
 		table = ComplaintTable(Complaint.objects.filter(complainee_id=request.user.username))
@@ -172,6 +167,11 @@ Messages Functionalities
 def inbox(request):
 	if request.user.is_authenticated():
 		table = inboxTable(inboxMessage.objects.filter(receiverlist=request.user.username))
+
+def inbox(request):
+	if request.user.is_authenticated():
+		table = inboxTable(inboxMessage.objects.filter(receiverlist=request.user.username))
+		
 		RequestConfig(request).configure(table)
 		for i in range(len(userTypes)):
 			if request.user.get_profile().userType==i:
@@ -234,6 +234,12 @@ def show_message(request,id):
 		layout = 'vertical'
 		m=inboxMessage.objects.get(pk=id)
 		#m=outboxMessage.objects.get(pk=id[0])
+def showInbox_message(request,id):
+	if request.user.is_authenticated():
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		m=inboxMessage.objects.get(pk=id)
 		subject=m.subject
 		msg=m.message
 		timestamp=m.timestamp
@@ -256,7 +262,9 @@ def show_message(request,id):
             return HttpResponseRedirect('/accounts/profile')
 
 		
-def delete_message(request,id):
+#def delete_message(request,id):
+
+def deleteInbox_message(request,id):
 	
 	if request.user.is_authenticated():
 		layout = request.GET.get('layout')
@@ -272,8 +280,105 @@ def delete_message(request,id):
 			for i in range(len(userTypes)):
 				if request.user.get_profile().userType==i:
 					return HttpResponseRedirect('/'+userTypes[i]+'/outbox')'''
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')
+            
+
+def showOutbox_message(request,id):
+	if request.user.is_authenticated():
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		m=outboxMessage.objects.get(pk=id)
+		subject=m.subject
+		msg=m.message
+		timestamp=m.timestamp
+		m.isRead='read'
+		m.save()
+		for i in range(len(userTypes)):
+					if request.user.get_profile().userType==i:
+						return render_to_response(userTypes[i]+'/show_message.html', RequestContext(request, {
+						'sender':m.sender,
+						'subject':m.subject,
+						'timestamp':m.timestamp,
+						'message':m.message
+						}))		    
+
 
 	elif not request.user.is_authenticated():
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
 	else:
             return HttpResponseRedirect('/accounts/profile')
+
+		
+def deleteOutbox_message(request,id):
+	
+	if request.user.is_authenticated():
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		messages=outboxMessage.objects.get(pk=id)
+		messages.delete() 
+		for i in range(len(userTypes)):
+			if request.user.get_profile().userType==i:
+				return HttpResponseRedirect('/'+userTypes[i]+'/outbox')
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')
+            
+def pay_dues(request,id):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		Dues=DuesItem.objects.get(pk=id)
+		if Dues.payee_id == request.user.username and Dues.submitted=='submitted':
+			return HttpResponseRedirect('/student/viewDues')
+		
+		elif request.method == 'POST':
+			form = DuesForm(request.POST)
+			if form.is_valid():
+				amt= form.cleaned_data['pay_dues']
+				payInf= form.cleaned_data['paymentInfo']
+				Dues.pay_dues=amt
+				Dues.submitted='submitted'
+				Dues.paymentInfo = payInf
+				Dues.submission_timestamp=datetime.date.today()
+				Dues.save()
+				return HttpResponseRedirect('/student/home')
+		else:
+			form = DuesForm()
+		return render_to_response('student/pay_dues.html', RequestContext(request, {
+		'form': form,
+		'layout':layout,
+		}))
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+		
+def view_dues(request):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+		table = DuesTable(DuesItem.objects.filter(payee_id=request.user.username ,submitted = "not submitted" ))
+		RequestConfig(request).configure(table)
+		return render(request,'student/viewDues.html',{'table': table})
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+
+def view_paid_dues(request):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+		table = DuesTable(DuesItem.objects.filter(payee_id=request.user.username,submitted = "submitted"))
+		RequestConfig(request).configure(table)
+		return render(request,'student/viewDues.html',{'table': table})
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+            
+            
+            

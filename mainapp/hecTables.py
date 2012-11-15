@@ -29,6 +29,7 @@ class InventoryIssueTable(tables.Table):
     issued_duration=tables.Column(verbose_name="No of days")
     isReturned = tables.Column(verbose_name="Is Returned")
     fine=tables.Column(verbose_name="Fine")
+    Delete = tables.LinkColumn('delete_issueitem', args=[A('pk')])
     
     class Meta:
         model = InventoryIssue
