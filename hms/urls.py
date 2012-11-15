@@ -15,17 +15,18 @@ url(r'^admin/', include(admin.site.urls)),
 (r'^accounts/logout/$', logout_then_login, {'login_url': '/accounts/login'}),
 (r'^accounts/profile/$', 'mainapp.views.profile'),
 (r'^accounts/register/$','mainapp.views.register'),
+(r'^accounts/updateInfo/$', 'mainapp.views.update_info'),
 
 (r'^student/home/$','mainapp.views.homepage',{'template_name' : 'student/home.html'}),
 (r'^student/viewComplaints/$','mainapp.views.view_complaints'),
 (r'^student/addComplaint/$','mainapp.views.add_complaint'),
 url('^student/deleteComplaint/id=(\d+)$', 'mainapp.views.delete_complaint', name='delete_complaint'),
+url('^student/viewPolicies/$', 'mainapp.views.view_policies', name = 'view_policies'), 
 (r'^student/inbox/$','mainapp.views.inbox'),
 (r'^student/outbox/$','mainapp.views.outbox'),
 (r'student/compose/$','mainapp.views.compose_message'),
 url('^student/deleteMessage/id=(\d+)$', 'mainapp.views.delete_message', name='delete_message'),
 url('^student/showMessage/id=(\d+)$', 'mainapp.views.show_message', name='show_message'),
-
 
 
 
@@ -60,12 +61,21 @@ url('^hec/deleteItem/id=(.+)$', 'mainapp.hecViews.delete_item', name='delete_ite
 url('^hec/returnItem/$', 'mainapp.hecViews.return_item'),
 url('^hec/issuedStatus/id=(.+)$', 'mainapp.hecViews.issued_status', name='issued_status'),
 
+(r'^hec/home/$','mainapp.views.homepag	e',{'template_name' : 'hec/home.html'}),
+url('^hec/createBoudget/$', 'mainapp.hecViews.create_boudget'),
+url('^hec/modifyBoudget/id=(\d+)$', 'mainapp.hecViews.view_boudget'),
+url('^hec/createMessMenu/$', 'mainapp.hecViews.create_mess_menu'),
+url('^hec/modifyMessMenu/id=(\d+)$', 'mainapp.hecViews.modify_mess_menu'),
+url('^hec/createMessBill/$', 'mainapp.hecViews.create_mess_bill'),
+url('^hec/modifyMessBill/id=(\d+)$', 'mainapp.hecViews.modify_mess_bill'),
+url('^hec/arrangeMeeting/$', 'mainapp.hecViews.arrange_meeting'),
+url('^hec/modifyMeeting/id=(\d+)$', 'mainapp.hecViews.modify_meeting'),
+
 (r'^hec/inbox/$','mainapp.views.inbox'),
 (r'^hec/outbox/$','mainapp.views.outbox'),
 (r'hec/compose/$','mainapp.views.compose_message'),
 url('^hec/deleteMessage/id=(\d+)$', 'mainapp.views.delete_message', name='delete_message'),
 url('^hec/showMessage/id=(\d+)$', 'mainapp.views.show_message', name='show_message'),
-
 (r'^dosa/home/$','mainapp.views.homepage',{'template_name' : 'dosa/home.html'}),
 (r'^dosa/inbox/$','mainapp.views.inbox'),
 (r'^dosa/outbox/$','mainapp.views.outbox'),

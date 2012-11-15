@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Update User Information{% endblock %}
+{% block content %}
+<style>
+	html { background: #BBBBBB; }
+	
+	form{
+		margin: 100px 100px 100px 100px;
+		font: 11px/165% 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+		
+		font-weight: normal;
+		font-size: 17px;
+		line-height: 1.6em;
+		color: #5E5E5E;
+		}
+	division{
+		margin: 30px 100px;
+		font: 11px/165% 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+		}
+</style>
+
+<h1 align="center">Update Information</h1>
+<div id = "form">
+<form action="." method="post">
+{% csrf_token %} 
+{{ form.as_p }}
+<input type="submit" value="Update info" id="sub"/>
+</form>
+</div>
+<!--
+{% if form.error_dict %}
+<p class="error">Please correct the errors below.</p>
+{% endif %}
+<div align="center" id="division">
+<table id="table">
+<tr>
+<td>
+	<label for="first_name">First Name:</label></td>
+<td>
+	<input type="text" name="first_name" value="" id="first_name"></td> <br/>
+</tr>
+
+<tr>
+<td>
+	<label for="last_name">Last Name:</label></td>
+<td>
+	<input type="text" name="last_name" value="" id="last_name"></td><br/>
+</tr>
+<tr>
+<td>
+	<label for="email">Email ID:</label></td>
+<td>
+	<input type="text" name="email" value="" id="email"></td><br/>
+</tr>
+
+</table>
+<input type="submit" value="Update info" id="sub"/>
+</div> -->
+{% endblock %}

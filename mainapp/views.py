@@ -11,9 +11,10 @@ from mainapp.forms import *
 
 from mainapp.studentForms import ComplaintForm	
 from mainapp.studentTables import ComplaintTable
-
-
-
+from mainapp.forms import UpdateInfoForm
+from mainapp.models import Policy
+#from mainapp.models import UserProfile
+from django.contrib.auth.models import User
 import datetime
 
 userTypes={0:'student', 1:'hec',2:'staff',3:'warden', 4:'dosa', 5:'senate'}
@@ -52,6 +53,38 @@ def register(request):
 	else:
 		data, errors = {}, {}
 	return render_to_response("registration/register.html")
+
+def update_info(request) :
+	if request.user.is_authenticated() :
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		if request.method == 'POST' :
+			
+			form = UpdateInfoForm(request.POST)
+			data = request.POST.copy()
+			if form.is_valid() :
+				#user = form.save()
+				name = User.objects.get(username = request.user.username)
+				name.first_name = form.cleaned_data['first_name']
+				name.last_name = form.cleaned_data['last_name']
+				name.email = form.cleaned_data['email']
+				name.save()
+				return HttpResponseRedirect("/accounts/profile")
+		else :
+			name = User.objects.get(username = request.user.username)
+			form = UpdateInfoForm(instance=name)
+			data, errors = {}, {}
+		return render_to_response("registration/updateInfo.html", RequestContext(request, {
+		'form' : form,
+		'layout' : layout,
+		}))
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+		
+	
 
 def view_complaints(request):
 	if request.user.is_authenticated() and request.user.get_profile().userType==0:
