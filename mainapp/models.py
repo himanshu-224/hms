@@ -60,9 +60,15 @@ class DuesItem(models.Model):
 		('Rejected', u'Rejected'),
 		('Pending', u'Pending'),
 	)
-	payee_id = models.CharField(max_length=30)
+	IsSubmitted_choices=(
+		('submitted',u'Submitted'),
+		('not submitted',u'Not Submitted'),
+	)
+	payee_id = models.CharField(max_length=10)
+	submitted = models.CharField(max_length=20, choices=IsSubmitted_choices,default='not submitted')
 	duesitem_type = models.CharField(max_length=30)
-	amount = models.IntegerField(max_length=30)
+	set_dues = models.IntegerField(default=0) 
+	pay_dues = models.IntegerField(default=0)
 	submission_timestamp = models.DateField(max_length=30)
 	duesdetails = models.CharField(max_length=500,default='')
 	status = models.CharField(max_length=200,default='')

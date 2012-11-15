@@ -9,8 +9,8 @@ from mainapp.models import *
 from mainapp.forms import *
 
 
-from mainapp.studentForms import ComplaintForm	
-from mainapp.studentTables import ComplaintTable
+from mainapp.studentForms import ComplaintForm,DuesForm
+from mainapp.studentTables import ComplaintTable,DuesTable
 from mainapp.forms import UpdateInfoForm
 from mainapp.models import Policy
 #from mainapp.models import UserProfile
@@ -277,3 +277,58 @@ def delete_message(request,id):
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
 	else:
             return HttpResponseRedirect('/accounts/profile')
+            
+def pay_dues(request,id):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		Dues=DuesItem.objects.get(pk=id)
+		if Dues.payee_id == request.user.username and Dues.submitted=='submitted':
+			return HttpResponseRedirect('/student/viewDues')
+		
+		elif request.method == 'POST':
+			form = DuesForm(request.POST)
+			if form.is_valid():
+				amt= form.cleaned_data['pay_dues']
+				payInf= form.cleaned_data['paymentInfo']
+				Dues.pay_dues=amt
+				Dues.submitted='submitted'
+				Dues.paymentInfo = payInf
+				Dues.submission_timestamp=datetime.date.today()
+				Dues.save()
+				return HttpResponseRedirect('/student/home')
+		else:
+			form = DuesForm()
+		return render_to_response('student/pay_dues.html', RequestContext(request, {
+		'form': form,
+		'layout':layout,
+		}))
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+		
+def view_dues(request):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+		table = DuesTable(DuesItem.objects.filter(payee_id=request.user.username ,submitted = "not submitted" ))
+		RequestConfig(request).configure(table)
+		return render(request,'student/viewDues.html',{'table': table})
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+
+def view_paid_dues(request):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+		table = DuesTable(DuesItem.objects.filter(payee_id=request.user.username,submitted = "submitted"))
+		RequestConfig(request).configure(table)
+		return render(request,'student/viewDues.html',{'table': table})
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+            
+            
+            
+            
