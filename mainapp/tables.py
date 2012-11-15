@@ -5,33 +5,33 @@ button="DELETE"
 
 class inboxTable(tables.Table):
 	id = tables.Column()
-	button = tables.LinkColumn('delete_message',accessor='button', args=[A('pk')], verbose_name='',orderable=False)
+	button = tables.LinkColumn('deleteInbox_message',accessor='button', args=[A('pk')], verbose_name='',orderable=False)
 	sender = tables.Column(verbose_name="Sender ID")
 	receiverlist = tables.Column(verbose_name="SendTo List")
-	subject = tables.LinkColumn('show_message',verbose_name="Subject",orderable=False,accessor='subject', args=[A('pk')])
+	subject = tables.LinkColumn('showInbox_message',verbose_name="Subject",orderable=False,accessor='subject', args=[A('pk')])
 	message = tables.Column(verbose_name="Message",orderable=False)
 	timestamp = tables.Column(verbose_name="Date") ##NEED TO MODIFY TO TILL SECOND
 	isRead = tables.Column(verbose_name="Status")
 	class Meta:
 		model = inboxMessage
 		attrs = {"class": "paleblue"}
-		exclude=("message","receiverlist")
+		exclude=("message","receiverlist","id")
 
 
 
 class outboxTable(tables.Table):
 	id = tables.Column()
-	button = tables.LinkColumn('delete_message',accessor='button', args=[A('pk')], verbose_name='Delete')	
+	button = tables.LinkColumn('deleteOutbox_message',accessor='button', args=[A('pk')], verbose_name='Delete')	
 	sender = tables.Column(verbose_name="Sender ID")
 	receiverlist = tables.Column(verbose_name="SendTo List")
-	subject = tables.LinkColumn('show_message',verbose_name="Subject",orderable=False,accessor='subject', args=[A('pk')])
+	subject = tables.LinkColumn('showOutbox_message',verbose_name="Subject",orderable=False,accessor='subject', args=[A('pk')])
 	message = tables.Column(verbose_name="Message",orderable=False)
 	timestamp = tables.Column(verbose_name="Date") ##NEED TO MODIFY TO TILL SECOND
 
 	class Meta:
 		model = outboxMessage
 		attrs = {"class": "paleblue"}
-		exclude=("message","sender")
+		exclude=("message","sender","id")
 	
 class draftsTable(tables.Table):
 	id = tables.Column()
