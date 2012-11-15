@@ -37,8 +37,8 @@ url('^staff/actOnComplaint/id=(\d+)$', 'mainapp.staffViews.act_on_complaint', na
 (r'^staff/inbox/$','mainapp.views.inbox'),
 (r'^staff/outbox/$','mainapp.views.outbox'),
 (r'staff/compose/$','mainapp.views.compose_message'),
-url('^staff/delete_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
-url('^staff/show_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
+url('^staff/deletezinbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
+url('^staff/showInbox_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
 url('^staff/deleteOutbox_message/id=(\d+)$', 'mainapp.views.deleteOutbox_message', name='deleteOutbox_message'),
 url('^staff/showOutbox_message/id=(\d+)$', 'mainapp.views.showOutbox_message', name='showOutbox_message'),
 
@@ -50,8 +50,8 @@ url('^warden/actOnComplaint/id=(\d+)$', 'mainapp.wardenViews.act_on_complaint', 
 (r'^warden/inbox/$','mainapp.views.inbox'),
 (r'^warden/outbox/$','mainapp.views.outbox'),
 (r'warden/compose/$','mainapp.views.compose_message'),
-url('^warden/delete_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
-url('^warden/show_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
+url('^warden/deleteInbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
+url('^warden/showinbox_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
 url('^warden/deleteOutbox_message/id=(\d+)$', 'mainapp.views.deleteOutbox_message', name='deleteOutbox_message'),
 url('^warden/showOutbox_message/id=(\d+)$', 'mainapp.views.showOutbox_message', name='showOutbox_message'),
 
@@ -70,8 +70,8 @@ url('^hec/deleteIssueItem/id=(.+)$', 'mainapp.hecViews.delete_issueitem', name='
 (r'^hec/inbox/$','mainapp.views.inbox'),
 (r'^hec/outbox/$','mainapp.views.outbox'),
 (r'hec/compose/$','mainapp.views.compose_message'),
-url('^hec/delete_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
-url('^hec/show_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
+url('^hec/deleteinbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
+url('^hec/showInbox_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
 url('^hec/deleteOutbox_message/id=(\d+)$', 'mainapp.views.deleteOutbox_message', name='deleteOutbox_message'),
 url('^hec/showOutbox_message/id=(\d+)$', 'mainapp.views.showOutbox_message', name='showOutbox_message'),
 
@@ -80,8 +80,8 @@ url('^hec/showOutbox_message/id=(\d+)$', 'mainapp.views.showOutbox_message', nam
 (r'^dosa/inbox/$','mainapp.views.inbox'),
 (r'^dosa/outbox/$','mainapp.views.outbox'),
 (r'dosa/compose/$','mainapp.views.compose_message'),
-url('^dosa/delete_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
-url('^dosa/show_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
+url('^dosa/deleteInbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
+url('^dosa/showInbox_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
 url('^dosa/deleteOutbox_message/id=(\d+)$', 'mainapp.views.deleteOutbox_message', name='deleteOutbox_message'),
 url('^dosa/showOutbox_message/id=(\d+)$', 'mainapp.views.showOutbox_message', name='showOutbox_message'),
 
@@ -89,12 +89,11 @@ url('^dosa/showOutbox_message/id=(\d+)$', 'mainapp.views.showOutbox_message', na
 (r'^senate/inbox/$','mainapp.views.inbox'),
 (r'^senate/outbox/$','mainapp.views.outbox'),
 (r'senate/compose/$','mainapp.views.compose_message'),
-url('^senate/delete_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
-url('^senate/show_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
+url('^senate/deleteInbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
+url('^senate/showInbox_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
 url('^senate/deleteOutbox_message/id=(\d+)$', 'mainapp.views.deleteOutbox_message', name='deleteOutbox_message'),
 url('^senate/showOutbox_message/id=(\d+)$', 'mainapp.views.showOutbox_message', name='showOutbox_message'), 
-    (r'^$', direct_to_template, {'template': 'index.html'}, "home"),
-)
+ (r'^$', direct_to_template, {'template': 'index.html'}, "home"),)
 
 
 url1=(url('^hec/viewPolicies/$', 'mainapp.hecViews.view_policies', name = 'view_policies'), 

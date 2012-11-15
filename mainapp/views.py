@@ -17,6 +17,8 @@ from mainapp.studentTables import ComplaintTable
 import datetime
 
 userTypes={0:'student', 1:'hec',2:'staff',3:'warden', 4:'dosa', 5:'senate'}
+mailList={"studentlist","employeelist"}
+
 
 def homepage(request,template_name):
 	if request.user.is_authenticated():
@@ -141,7 +143,6 @@ Messages Functionalities
 def inbox(request):
 	if request.user.is_authenticated():
 		table = inboxTable(inboxMessage.objects.filter(receiverlist=request.user.username))
-		
 		RequestConfig(request).configure(table)
 		for i in range(len(userTypes)):
 			if request.user.get_profile().userType==i:
@@ -172,19 +173,60 @@ def compose_message(request):
                 layout = 'vertical'
             if request.method == 'POST':
 				form = MessageForm(request.POST)
+				u=User.objects.all()
+				k=0
 				if form.is_valid():
+					'''
+					for s in form.cleaned_data['To'].split(","):
+						k=0
+						if s in mailList:
+							k=1
+						else:
+							for user in u:
+								if s!=user.username:
+									continue
+								else :
+									k=1
+									break
+						if k==0:
+							form = MessageForm()
+							layout = 'vertical'
+			                for i in range(len(userTypes)):
+									if request.user.get_profile().userType==i:
+										return render_to_response(userTypes[i]+'/compose_message.html', RequestContext(request, {
+										'form': form,
+										'layout': layout,
+										}))'''
+										
 					at = form.cleaned_data['To']
 					ct = form.cleaned_data['subject']
 					dt = form.cleaned_data['message']
-					Cmp=inboxMessage(sender=request.user.username,receiverlist=at, subject=ct,message=dt,timestamp=datetime.date.today(),)
-					Cmp.save()
-					Cmp=outboxMessage(sender=request.user.username,receiverlist=at, subject=ct,message=dt,timestamp=datetime.date.today(),)
-					Cmp.save()
+					
+					for s in at.split(","):
+						if s not in mailList:
+							msg=inboxMessage(sender=request.user.username,receiverlist=s, subject=ct,message=dt,timestamp=datetime.date.today(),)
+							msg.save()
+						else:
+							u=User.objects.all()
+							for user in u:
+								if s =="studentlist":
+									if user.get_profile().userType==0:
+										msg=inboxMessage(sender=request.user.username,receiverlist=user.username, subject=ct,message=dt,timestamp=datetime.date.today(),)
+										msg.save()
+								elif s=="employeelist":
+									if user.get_profile().userType in range(2,4):
+										msg=inboxMessage(sender=request.user.username,receiverlist=user.username, subject=ct,message=dt,timestamp=datetime.date.today(),)
+										msg.save()
+					msg=outboxMessage(sender=request.user.username,receiverlist=at, subject=ct,message=dt,timestamp=datetime.date.today(),)
+					msg.save()					
 					for i in range(len(userTypes)):
 						if request.user.get_profile().userType==i:
 							return HttpResponseRedirect('/'+userTypes[i]+'/outbox')
+							
+						
+							
             else:
-                form = MessageForm()
+                form = MessageForm
                 for i in range(len(userTypes)):
 						if request.user.get_profile().userType==i:
 							return render_to_response(userTypes[i]+'/compose_message.html', RequestContext(request, {
@@ -211,6 +253,7 @@ def showInbox_message(request,id):
 		for i in range(len(userTypes)):
 						if request.user.get_profile().userType==i:
 							return render_to_response(userTypes[i]+'/show_message.html', RequestContext(request, {
+							'type':"From",
 							'sender':m.sender,
 							'subject':m.subject,
 							'timestamp':m.timestamp,
@@ -249,12 +292,13 @@ def showOutbox_message(request,id):
 		subject=m.subject
 		msg=m.message
 		timestamp=m.timestamp
-		m.isRead='read'
+		m.isRead='read'	
 		m.save()
 		for i in range(len(userTypes)):
 					if request.user.get_profile().userType==i:
 						return render_to_response(userTypes[i]+'/show_message.html', RequestContext(request, {
-						'sender':m.sender,
+						'type':"To",
+						'sender':m.receiverlist,
 						'subject':m.subject,
 						'timestamp':m.timestamp,
 						'message':m.message
@@ -281,3 +325,7 @@ def deleteOutbox_message(request,id):
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
 	else:
             return HttpResponseRedirect('/accounts/profile')
+            
+def update_info(request,id):
+	
+	return HttpResponseRedirect('/accounts/profile')
