@@ -194,20 +194,17 @@ def compose_message(request):
 	else:
             return HttpResponseRedirect('/accounts/profile')
 
-def show_message(request,id):
+def showInbox_message(request,id):
 	if request.user.is_authenticated():
-	    layout = request.GET.get('layout')
-	    if not layout:
-		layout = 'vertical'
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
 		m=inboxMessage.objects.get(pk=id)
-		#m=outboxMessage.objects.get(pk=id[0])
 		subject=m.subject
 		msg=m.message
 		timestamp=m.timestamp
 		m.isRead='read'
 		m.save()
-		#msg=inboxMessage(sender=m.sender,receiverlist=m.receiverlist,subject=m.subject,message=m.message,timestamp=m.timestamp,m.isRead='read')
-		#msg.save()
 		for i in range(len(userTypes)):
 						if request.user.get_profile().userType==i:
 							return render_to_response(userTypes[i]+'/show_message.html', RequestContext(request, {
@@ -223,7 +220,7 @@ def show_message(request,id):
             return HttpResponseRedirect('/accounts/profile')
 
 		
-def delete_message(request,id):
+def deleteInbox_message(request,id):
 	
 	if request.user.is_authenticated():
 		layout = request.GET.get('layout')
@@ -234,12 +231,49 @@ def delete_message(request,id):
 		for i in range(len(userTypes)):
 			if request.user.get_profile().userType==i:
 				return HttpResponseRedirect('/'+userTypes[i]+'/inbox')
-			'''messages=outboxMessage.objects.get(pk=id)
-			messages.delete() 
-			for i in range(len(userTypes)):
-				if request.user.get_profile().userType==i:
-					return HttpResponseRedirect('/'+userTypes[i]+'/outbox')'''
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')
+            
 
+def showOutbox_message(request,id):
+	if request.user.is_authenticated():
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		m=outboxMessage.objects.get(pk=id)
+		subject=m.subject
+		msg=m.message
+		timestamp=m.timestamp
+		m.isRead='read'
+		m.save()
+		for i in range(len(userTypes)):
+					if request.user.get_profile().userType==i:
+						return render_to_response(userTypes[i]+'/show_message.html', RequestContext(request, {
+						'sender':m.sender,
+						'subject':m.subject,
+						'timestamp':m.timestamp,
+						'message':m.message
+						}))		    
+
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')
+
+		
+def deleteOutbox_message(request,id):
+	
+	if request.user.is_authenticated():
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		messages=outboxMessage.objects.get(pk=id)
+		messages.delete() 
+		for i in range(len(userTypes)):
+			if request.user.get_profile().userType==i:
+				return HttpResponseRedirect('/'+userTypes[i]+'/outbox')
 	elif not request.user.is_authenticated():
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
 	else:
