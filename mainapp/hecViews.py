@@ -153,3 +153,17 @@ def issued_status(request,id):
             return HttpResponseRedirect('/accounts/profile')           
             
 
+def delete_issueitem(request,id):
+    if request.user.is_authenticated() and request.user.get_profile().userType==1:
+        item=InventoryIssue.objects.get(pk=id)
+        if item.isReturned=='Yes':
+            item.delete()
+        else:
+            message="Cannot Delete Issue Record for " +item.item_id.item_id +" as the item has not been returned"
+            return render_to_response('hec/form_message.html', RequestContext(request,{'message':message }))
+        return HttpResponseRedirect('/hec/viewItem')
+
+    elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+    else:
+            return HttpResponseRedirect('/accounts/profile')   

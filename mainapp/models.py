@@ -97,7 +97,7 @@ class InventoryIssue(models.Model):
 	isReturned=models.CharField(max_length=10, choices=isReturned_CHOICES,default='No')
 	fine=models.FloatField(default=0)
 	Return=models.CharField(max_length=7,default="Return")
-	
+	Delete = models.CharField(max_length=7,default="Delete")
 	
 	
 class Activity(models.Model):
