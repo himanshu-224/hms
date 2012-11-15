@@ -1,0 +1,13 @@
+{% extends "warden/base.html" %}
+{% block title %}Compose Message{% endblock %}
+
+{% block content %}
+    
+<p>&nbsp;</p>
+        
+<form action="" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="SEND"/>
+</form>
+
+{% endblock %}

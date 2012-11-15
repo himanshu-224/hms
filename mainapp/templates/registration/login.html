@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+{% if form.errors %}
+<p class="error">Sorry, that's not a valid username or password</p>
+{% endif %}
+<style>
+	html { background: #010010 url(bg.gif) repeat-x; }
+	
+	table{
+		margin: 300px 100px 10px 10px;
+		font: 11px/165% 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+		border: 1px solid #111; 
+		font-weight: normal;
+		font-size: 17px;
+		line-height: 1.6em;
+		color: #5E5E5E;
+		}
+	division{
+		margin: 30px 100px;
+		font: 11px/165% 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+		}
+</style>
+
+<div align="center" id="division">
+<table id= "table">
+<form action='.' method='post'>
+{% csrf_token %} 
+<tr>
+<td>
+	<label for="username">User name:</label></td>
+<td>
+	<input type="text" name="username" value="" id="username"></td>
+</tr>
+<tr>
+<td>
+	<label for="password">Password:</label></td>
+<td>
+	<input type="password" name="password" value="" id="password"></td>
+</tr>
+
+</table>
+
+<input type="submit" value="login" id="sub"/>
+<input type="hidden" name="next" value="{{ next }}" id = "sub"/>
+<form action='.' method='post'>
+</div>
+{% endblock %}

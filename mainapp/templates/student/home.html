@@ -1,0 +1,48 @@
+	{% extends "student/base.html" %}
+{% block title %}Profile Page{% endblock %}
+{% block content %}
+<style>
+	html { background: #CCCCCC ; }
+	
+	.button{
+		text-align: center
+	}
+	.c1{
+		width: 100px;
+	}
+	.c2{
+		width: 200px;
+	}
+</style>
+<h2 align= "center" color= "">User Information</h2>
+<br/>
+<table border="5px" align="center">
+<tr>
+<td class = "c1"><b>Username</b></td>
+<td class = "c2">{{username}}</td>
+</tr>
+
+<tr>
+<td class = "c1"><b>First name</b></td>
+<td class = "c2">{{first_name}}</td>
+</tr>
+
+<tr>
+<td class = "c1"><b>Last Name</b></td>
+<td class = "c2">{{last_name}}</td>
+</tr>
+
+<tr>
+<td class = "c1"><b>Email</b></td>
+<td class = "c2">{{email}}</td>
+</tr>
+
+</table>
+<!-- <button align="center" color="black">
+-->
+<div class="button">
+<button>
+<a href='/accounts/updateInfo/'>Update Info</href>
+</button>
+</div>
+{% endblock %}

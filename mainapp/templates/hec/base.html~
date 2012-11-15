@@ -1,0 +1,76 @@
+
+
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block menu_css %}
+<style>
+#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:900px; height:52px; font-family: arial; }
+#navigation ul{ margin:0; padding: 0;}
+#navigation ul li{ background: url('static/images/devider.gif') no-repeat top right; display:inline; height: 52px; list-style:none; float:left; }
+#navigation li a{ color:#ccc; text-decoration: none; line-height:3.2em; display:block; padding:0px 30px; }
+#navigation li a:hover{ color:#fff;}
+#navigation li ul{ display:none;}
+#navigation ul li ul li{ display: block; background:#4D4D4D; float:none; border-top:1px solid #373737; margin-bottom:-3px}
+#navigation ul li:hover ul, #navigation ul li:focus ul{ position:relative; display:block;}
+</style>
+{% endblock %}
+{% block style %} {% endblock %}
+
+{% block menu %}
+<div id="navigation">
+    <ul>
+        <li><a href="/hec/home/">Home</a></li>
+        <li><a href="#">Complaints</a>
+			<ul>
+				<li><a href="/hec/viewComplaints/">View Complaints</a></li>
+			</ul>		
+	</li>
+        <li><a href="#">Requests</a>
+			<ul>
+				<li><a href="/hec/viewRequests/">View Requests</a></li>
+			</ul>	
+	</li>
+        <li><a href="#">Dues</a>
+			<ul>
+				<li><a href="/hec/viewDues/">View Dues</a></li>
+			</ul>	
+	</li>
+        <li><a href="#">Inventory Management</a>
+            <ul>
+                <li><a href="/hec/addItem/">Add Item</a></li>
+		<li><a href="/hec/issueItem/">Issue Item</a></li>
+		<li><a href="/hec/viewItem/">View Inventory</a></li>
+		<li><a href="/hec/returnItem/">Return Item</a></li>
+            </ul>
+
+       <li><a href="#">Notification</a>
+			<ul>
+				<li><a href="/hec/notifications/view/">View Notifications</a></li>
+				<li><a href="/hec/notifications/send/">Send Notification</a></li>
+			</ul>
+        
+        </li>
+        
+        
+        <li><a href="#">Messages</a>
+			<ul>
+				<li><a href="/hec/inbox">Inbox</a></li>
+				<li><a href="/hec/outbox">Outbox</a></li>
+				<li><a href="/hec/compose">Compose</a></li></li>
+			</ul>
+        
+        </li>       
+        	
+         <li><a href="/accounts/logout/">Logout </a></li>
+    </ul>
+
+</div>
+
+{% endblock %}
+{% block content %}{% endblock %}
+{% block footer %}
+{% endblock %}
+
+
+
+
