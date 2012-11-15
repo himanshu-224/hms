@@ -15,7 +15,7 @@ url(r'^admin/', include(admin.site.urls)),
 (r'^accounts/logout/$', logout_then_login, {'login_url': '/accounts/login'}),
 (r'^accounts/profile/$', 'mainapp.views.profile'),
 (r'^accounts/register/$','mainapp.views.register'),
-(r'^accounts/updateInfo/$', 'mainapp.views.update_info'),
+#(r'^accounts/updateInfo/$', 'mainapp.views.update_info'),
 
 (r'^student/home/$','mainapp.views.homepage',{'template_name' : 'student/home.html'}),
 (r'^student/viewComplaints/$','mainapp.views.view_complaints'),
@@ -31,6 +31,7 @@ url('^student/deleteInbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message
 url('^student/showInbox_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
 url('^student/deleteOutbox_message/id=(\d+)$', 'mainapp.views.deleteOutbox_message', name='deleteOutbox_message'),
 url('^student/showOutbox_message/id=(\d+)$', 'mainapp.views.showOutbox_message', name='showOutbox_message'),
+(r'^student/issuedStatus/$','mainapp.studentViews.issued_status'),
 
 (r'^staff/addDues/$','mainapp.staffViews.add_Dues'),
 (r'^staff/viewDues/$','mainapp.staffViews.view_Dues'),

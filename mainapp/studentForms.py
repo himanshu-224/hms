@@ -20,7 +20,8 @@ class ComplaintForm(forms.Form):
             ),widget=forms.Select
         )
 	complaint_type = forms.CharField(max_length=100,widget=forms.TextInput)
-	details = forms.CharField(max_length=500,widget=forms.Textarea())        
+	details = forms.CharField(max_length=500,widget=forms.Textarea())
+	
 
 class DuesForm(forms.Form):
 	duesitem_type = forms.ChoiceField(

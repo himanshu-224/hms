@@ -1,6 +1,8 @@
 import django_tables2 as tables
 from mainapp.models import Complaint,DuesItem
+
 from django_tables2.utils import A  # alias for Accessor
+from mainapp.models import *
 
 class ComplaintTable(tables.Table):
 	id = tables.Column()
@@ -18,6 +20,7 @@ class ComplaintTable(tables.Table):
 	class Meta:
 		model = Complaint
 		attrs = {"class": "paleblue"}
+
 		
 class DuesTable(tables.Table):
 	id = tables.Column()
@@ -36,3 +39,20 @@ class DuesTable(tables.Table):
 		sequence=('id','payee_id','duesitem_type','set_dues','pay_dues','submission_timestamp','duesdetails','paymentInfo','isApproved_staff','isApproved_warden','status',)
 		attrs = {"class":"paleblue"}
 		
+
+
+class InventoryIssueTable(tables.Table):
+    
+    item_id = tables.Column(verbose_name="Item Id")
+    issuer_id = tables.Column(verbose_name="Issuer Id")
+    issue_timestamp = tables.Column(verbose_name="Issued on")
+    return_timestamp = tables.Column(verbose_name="Returned on")
+    issued_duration=tables.Column(verbose_name="No of days")
+    isReturned = tables.Column(verbose_name="Is Returned")
+    fine=tables.Column(verbose_name="Fine")
+    
+    class Meta:
+        model = InventoryIssue
+        attrs = {"class": "paleblue"}  
+        exclude=('Delete','Return')
+
