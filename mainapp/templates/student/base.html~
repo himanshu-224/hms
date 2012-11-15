@@ -36,6 +36,7 @@
 			<ul>
 				<li><a href="/student/payDues/">Pay Dues</a></li>
 				<li><a href="/student/viewDues/">Check Status</a></li>
+				<li><a href="/student/issuedStatus/">Issued Items</a></li>
 			</ul>	
 	</li>
 	
@@ -53,7 +54,6 @@
 			<ul>
 				<li><a href="/student/inbox/">Inbox</a></li>
 				<li><a href="/student/outbox/">Outbox</a></li>
-				<li><a href="/student/drafts/">Drafts</a></li></li>
 				<li><a href="/student/compose/">Compose</a></li></li>
 
 			</ul>
