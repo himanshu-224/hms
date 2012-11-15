@@ -1,0 +1,22 @@
+{% extends "hec/base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block title %}INBOX{% endblock %}
+
+<p>&nbsp;</p>
+        
+<form action="" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Send" />
+</form>
+
+{% block style %} <link rel="stylesheet" href="/static/django_tables2/themes/paleblue/css/screen.css" /> {% endblock %}
+
+{% block content %}
+<p></p>
+{% render_table table %}{% endblock %}
+
+
+
+
+

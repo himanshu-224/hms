@@ -4,9 +4,9 @@
 {% block title %}{% endblock %}
 {% block menu_css %}
 <style>
-#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:800px; height:52px; font-family: arial; }
+#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:900px; height:52px; font-family: arial; }
 #navigation ul{ margin:0; padding: 0;}
-#navigation ul li{ background: url('static/images/devider.gif') no-repeat top right; display:inline; height: 52px; list-style:none; float:left; }
+#navigation ul li{ background: url('static/images/devider.gif'hec) no-repeat top right; display:inline; height: 52px; list-style:none; float:left; }
 #navigation li a{ color:#ccc; text-decoration: none; line-height:3.2em; display:block; padding:0px 30px; }
 #navigation li a:hover{ color:#fff;}
 #navigation li ul{ display:none;}
@@ -35,15 +35,27 @@
 				<li><a href="/warden/viewDues/">View Dues</a></li>
 			</ul>	
 	</li>
-        <li><a href="#">Hall Policies</a>
-            <ul>
-                <li><a href="/senate/viewPolicies/">View Policies</a></li>
-                <li><a href="/dosa/viewPolicyRequests/">Pending Requests</a></li>
-                <li><a href="/dosa/createNewPolicy/">Create Policy</a></li>
-                <li><a href="/dosa/modifyExistingPolicy/">Change Policy</a></li>
-            </ul>
 
-        <li><a href="#">Clients</a></li>	
+        <li><a href="#">Notification</a>
+			<ul>
+				<li><a href="/senate/notifications/view/">View Notifications</a></li>
+				<li><a href="/senate/notifications/send/">Send Notification</a></li>
+			</ul>
+        
+        </li>
+        
+        
+        <li><a href="#">Messages</a>
+			<ul>
+				<li><a href="/senate/inbox">Inbox</a></li>
+				<li><a href="/senate/outbox">Outbox</a></li>
+				<li><a href="/senate/compose">Compose</a></li></li>
+			</ul>
+        
+        </li>       
+        	
+         <li><a href="/accounts/logout/">Logout </a></li>
+    </ul>	
     </ul>
 </div>
 

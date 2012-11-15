@@ -4,7 +4,7 @@
 {% block title %}{% endblock %}
 {% block menu_css %}
 <style>
-#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:800px; height:52px; font-family: arial; }
+#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:900px; height:52px; font-family: arial; }
 #navigation ul{ margin:0; padding: 0;}
 #navigation ul li{ background: url('static/images/devider.gif') no-repeat top right; display:inline; height: 52px; list-style:none; float:left; }
 #navigation li a{ color:#ccc; text-decoration: none; line-height:3.2em; display:block; padding:0px 30px; }
@@ -35,17 +35,26 @@
 				<li><a href="/staff/viewDues/">View Dues</a></li>
 			</ul>	
 	</li>
-        <li><a href="#">Hall Policies</a>
-            <ul>
-                <li><a href="/staff/viewPolicies/">View Policies</a></li>
-            </ul>
-     </li>
 
-        <li><a href="#">Clients</a>
-		
-	</li>
-		
-	</li>	
+        <li><a href="#">Notification</a>
+			<ul>
+				<li><a href="/staff/notifications/view/">View Notifications</a></li>
+				<li><a href="/staff/notifications/send/">Send Notification</a></li>
+			</ul>
+        
+        </li>
+        
+        
+        <li><a href="#">Messages</a>
+			<ul>
+				<li><a href="/staff/inbox/">Inbox</a></li>
+				<li><a href="/staff/outbox/">Outbox</a></li>
+				<li><a href="/staff/compose/">Compose</a></li></li>
+			</ul>
+        
+        </li>       
+        	
+         <li><a href="/accounts/logout/">Logout </a></li>
     </ul>
 </div>
 
