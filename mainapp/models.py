@@ -95,8 +95,9 @@ class InventoryIssue(models.Model):
 	return_timestamp = models.DateField(max_length=10)
 	issued_duration = models.FloatField(default=0)
 	isReturned=models.CharField(max_length=10, choices=isReturned_CHOICES,default='No')
-	Return=models.CharField(max_length=7,default="Return")
 	fine=models.FloatField(default=0)
+	Return=models.CharField(max_length=7,default="Return")
+	
 	
 	
 class Activity(models.Model):

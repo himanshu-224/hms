@@ -118,10 +118,22 @@ def delete_item(request,id):
             
 def return_item(request,id):
     if request.user.is_authenticated() and request.user.get_profile().userType==1:
-        item=InventoryItem.objects.get(item_id=id)
-        if complaints.complainee_id == request.user.username and complaints.isAccepted=='Pending':
-            complaints.delete()
-        return HttpResponseRedirect('/student/viewComplaints')
+        item=InventoryIssue.objects.get(pk=id)
+        itemType=item.item_id
+        if item.isReturned == 'No':
+            item.isReturned='Yes'
+            item.return_timestamp=datetime.date.today()
+            delta=item.return_timestamp-item.issue_timestamp
+            item.issued_duration=delta.days;
+            if item.issued_duration > itemType.issued_for:
+                item.fine = itemType.fine_rate * (item.issued_duration - itemType.issued_for)
+            item.save()
+            itemType.no_issued-=1
+            itemType.save()
+        else:
+            message="Cannot Return Item " +itemType.item_id +" issued by "+ item.issuer_id.username+" as it has already been returned."            
+            return render_to_response('hec/form_message.html', RequestContext(request,{'message':message }))            
+        return HttpResponseRedirect('/hec/issuedStatus/id='+itemType.item_id)
 
     elif not request.user.is_authenticated():
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
