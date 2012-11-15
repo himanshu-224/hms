@@ -71,22 +71,25 @@ class DuesItem(models.Model):
 	isApproved_warden = models.CharField(max_length=10, choices=isApproved_CHOICES,default='Pending')
 	
 class InventoryItem(models.Model):
-	item_id = models.CharField(max_length=10)
+	item_id = models.CharField(max_length=10,primary_key=True)
 	name = models.CharField(max_length=30)
 	date_added= models.DateField(max_length=20)
 	no_total = models.IntegerField(default=1)
 	no_issued = models.IntegerField(default=0)
 	issued_for = models.IntegerField(default=15)
 	fine_rate=models.FloatField(default=0)
-	ISSUE=models.CharField(max_length=6,default="ISSUE")
-	DELETE=models.CharField(max_length=7,default="DELETE")
+    	Issue=models.CharField(max_length=6,default="Issue")
+	Delete=models.CharField(max_length=7,default="Delete")
+	def __unicode__(self):
+        	return self.item_id
+	
 	
 class InventoryIssue(models.Model):
 	item_id = models.ForeignKey(InventoryItem)
-	issuer_id = models.CharField(max_length=20)
+	issuer_id = models.ForeignKey(User)
 	issue_timestamp = models.DateField(max_length=10)
-	issued_duration = models.DateField(max_length=10)
-	RETURN=models.CharField(max_length=7,default="RETURN")
+	issued_duration = models.FloatField(default=0)
+	Return=models.CharField(max_length=7,default="Return")
 	
 	
 class Activity(models.Model):

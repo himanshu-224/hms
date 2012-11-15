@@ -45,19 +45,26 @@ def view_item(request):
          
 def issue_item(request,id):
     if request.user.is_authenticated() and request.user.get_profile().userType==1:
-            if request.method == 'POST':
-                form = IssueItemForm(request.POST)
-                if form.is_valid():
-                    at = form.cleaned_data['issuer_id']
-                    bt = form.cleaned_data['item_id']
-                    data=InventoryItem(issuer_id=at,item_id=bt,issue_timestamp=datetime.datetime.today())
-                    data.save()
-                    return HttpResponseRedirect('/hec/home')
+            item=InventoryItem.objects.get(item_id=id)
+            if item.no_total>item.no_issued:
+                if request.method == 'POST':
+                    form = IssueItemForm(request.POST)
+                    if form.is_valid():
+                        at = form.cleaned_data['issuer_id']
+                        item.no_issued+=1
+                        item.save()
+                        data=InventoryIssue(issuer_id=at,item_id=item,issue_timestamp=datetime.date.today())
+                        data.save()
+                        return HttpResponseRedirect('/hec/viewItem')
+                else:
+                    form = IssueItemForm()
+                return render_to_response('hec/form_add_item.html', RequestContext(request, {
+                'form': form,
+                }))
+                
             else:
-                form = IssueItemForm()
-            return render_to_response('hec/form_add_item.html', RequestContext(request, {
-            'form': form,
-            }))
+                message="Cannot Issue Item " +item.item_id +" as it is already issued"
+                return render_to_response('hec/form_message.html', RequestContext(request,{'message':message }))
     elif not request.user.is_authenticated():
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
     else:
@@ -65,11 +72,14 @@ def issue_item(request,id):
             
 
 def delete_item(request,id):
-    if request.user.is_authenticated() and request.user.get_profile().userType==0:
-        complaints=Complaint.objects.get(pk=id)
-        if complaints.complainee_id == request.user.username and complaints.isAccepted=='Pending':
-            complaints.delete()
-        return HttpResponseRedirect('/student/viewComplaints')
+    if request.user.is_authenticated() and request.user.get_profile().userType==1:
+        item=InventoryItem.objects.get(item_id=id)
+        if item.no_issued==0:
+            item.delete()
+        else:
+            message="Cannot Delete Item " +item.item_id +" as it is issued to someone."            
+            return render_to_response('hec/form_message.html', RequestContext(request,{'message':message }))
+        return HttpResponseRedirect('/hec/viewItem')
 
     elif not request.user.is_authenticated():
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
@@ -78,7 +88,7 @@ def delete_item(request,id):
             
             
 def return_item(request,id):
-    if request.user.is_authenticated() and request.user.get_profile().userType==0:
+    if request.user.is_authenticated() and request.user.get_profile().userType==1:
         complaints=Complaint.objects.get(pk=id)
         if complaints.complainee_id == request.user.username and complaints.isAccepted=='Pending':
             complaints.delete()
@@ -88,3 +98,17 @@ def return_item(request,id):
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
     else:
             return HttpResponseRedirect('/accounts/profile')              
+
+def issued_status(request,id):
+    if request.user.is_authenticated() and request.user.get_profile().userType==1:
+        item=InventoryItem.objects.get(item_id=id)
+        issuedItems=InventoryIssue.objects.filter(item_id=item)
+        if complaints.complainee_id == request.user.username and complaints.isAccepted=='Pending':
+            complaints.delete()
+        return HttpResponseRedirect('/student/viewComplaints')
+
+    elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+    else:
+            return HttpResponseRedirect('/accounts/profile')              
+            

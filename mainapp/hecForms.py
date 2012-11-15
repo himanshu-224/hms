@@ -7,12 +7,12 @@ from django.forms import Textarea,TextInput
 class AddItemForm(ModelForm):
     class Meta:
         model = InventoryItem
-        exclude=('date_added','no_issued','ISSUE','DELETE')
+        exclude=('date_added','no_issued','Issue','Delete')
 
 class IssueItemForm(ModelForm):
     class Meta:
         model = InventoryIssue
-        exclude=('issue_timestamp','issued_duration','RETURN')
-        widgets = {'item_id': TextInput(attrs={'readonly':'readonly'})}
+        exclude=('issue_timestamp','issued_duration','Return','item_id')
+       
         
    

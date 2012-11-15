@@ -55,9 +55,10 @@ url('^warden/showMessage/id=(\d+)$', 'mainapp.views.show_message', name='show_me
 
 url('^hec/addItem/$', 'mainapp.hecViews.add_item'),
 url('^hec/viewItem/$', 'mainapp.hecViews.view_item'),
-url('^hec/issueItem/id=(\d+)$', 'mainapp.hecViews.issue_item', name='issue_item'),
-url('^hec/deleteItem/id=(\d+)$', 'mainapp.hecViews.delete_item', name='delete_item'),
+url('^hec/issueItem/id=(.+)$', 'mainapp.hecViews.issue_item', name='issue_item'),
+url('^hec/deleteItem/id=(.+)$', 'mainapp.hecViews.delete_item', name='delete_item'),
 url('^hec/returnItem/$', 'mainapp.hecViews.return_item'),
+url('^hec/issuedStatus/id=(.+)$', 'mainapp.hecViews.issued_status', name='issued_status'),
 
 (r'^hec/inbox/$','mainapp.views.inbox'),
 (r'^hec/outbox/$','mainapp.views.outbox'),
