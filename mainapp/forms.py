@@ -14,3 +14,7 @@ class ComplaintForm(forms.Form):
 	complaint_type = forms.CharField(max_length=100,widget=forms.TextInput)
 	details = forms.CharField(max_length=500,widget=forms.Textarea())  
 
+class UpdateInfoForm(forms.ModelForm) :
+	class Meta:
+		model=User
+		fields=('first_name','last_name','email')

@@ -13,12 +13,14 @@ url(r'^admin/', include(admin.site.urls)),
 (r'^accounts/logout/$', logout_then_login, {'login_url': '/accounts/login'}),
 (r'^accounts/profile/$', 'mainapp.views.profile'),
 (r'^accounts/register/$','mainapp.views.register'),
+(r'^accounts/updateInfo/$', 'mainapp.views.update_info'),
 
 (r'^student/home/$','mainapp.views.homepage',{'template_name' : 'student/home.html'}),
 (r'^student/viewComplaints/$','mainapp.views.view_complaints'),
 (r'^student/addComplaint/$','mainapp.views.add_complaint'),
 url('^student/deleteComplaint/id=(\d+)$', 'mainapp.views.delete_complaint', name='delete_complaint'),
 url('^student/viewPolicies/$', 'mainapp.views.view_policies', name = 'view_policies'), 
+#url('^student/updateInfo/$', 'mainapp.views.update_info'),
 
 (r'^staff/home/$','mainapp.views.homepage',{'template_name' : 'staff/home.html'}),
 (r'^staff/home/$','mainapp.views.profile',{'template_name' : 'staff/home.html'}),
@@ -33,8 +35,7 @@ url('^warden/viewPolicies/$', 'mainapp.views.view_policies', name = 'view_polici
 
 
 
-(r'^hec/home/$','mainapp.views.homepage',{'template_name' : 'hec/home.html'}),
-url('^hec/viewPolicies/$', 'mainapp.hecViews.view_policies', name = 'view_policies'), 
+(r'^hec/home/$','mainapp.views.homepag	e',{'template_name' : 'hec/home.html'}),
 url('^hec/createBoudget/$', 'mainapp.hecViews.create_boudget'),
 url('^hec/modifyBoudget/id=(\d+)$', 'mainapp.hecViews.view_boudget'),
 url('^hec/createMessMenu/$', 'mainapp.hecViews.create_mess_menu'),
