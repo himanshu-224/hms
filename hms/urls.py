@@ -63,7 +63,7 @@ url('^hec/issueItem/id=(.+)$', 'mainapp.hecViews.issue_item', name='issue_item')
 url('^hec/deleteItem/id=(.+)$', 'mainapp.hecViews.delete_item', name='delete_item'),
 url('^hec/returnItem/id=(\d+)$', 'mainapp.hecViews.return_item', name='return_item'),
 url('^hec/issuedStatus/id=(.+)$', 'mainapp.hecViews.issued_status', name='issued_status'),
-
+url('^hec/deleteIssueItem/id=(.+)$', 'mainapp.hecViews.delete_issueitem', name='delete_issueitem'),
 (r'^hec/home/$','mainapp.views.homepage',{'template_name' : 'hec/home.html'}),
 
 
