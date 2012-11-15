@@ -48,4 +48,15 @@ class draftsTable(tables.Table):
 		attrs = {"class": "paleblue"}
 		exclude=("message","sender","id")
 
-
+class candidateListTable(tables.Table):
+	
+	id = tables.Column()
+	username = tables.Column(verbose_name = "Username")
+	total_votes = tables.Column(verbose_name = "Total Votes")
+	post = tables.Column(verbose_name = "Post")
+	candidate_name = tables.Column(verbose_name = "Candidate Name")
+	
+	class Meta :
+		model = candidateList
+		attrs = {"class": "paleblue"}
+		exclude=("candidate_name",)
