@@ -150,12 +150,22 @@ class Election(models.Model):
 		(2, u'Pending'),
 	)
 	election_type = models.CharField(max_length=20)
+	description = models.CharField(max_length=100)
+	start_dateTime = models.DateField(max_length=20)
+	end_dateTime = models.DateField(max_length=20)
+	election_officer = models.CharField(max_length=20)
+	is_Approved = models.IntegerField(max_length=20, choices=isApproved_CHOICES)
+
+class candidateList(models.Model) :
+	candidate_name = models.CharField(max_length = 30)
+	username = models.CharField(max_length = 10)
+	total_votes = models.IntegerField(max_length = 20)
+	post = models.CharField(max_length = 20)
 	description = models.CharField(max_length=20)
 	start_dateTime = models.DateField(max_length=20)
 	end_dateTime = models.DateField(max_length=20)
 	candidate_list = models.CharField(max_length=10)
 	election_officer = models.CharField(max_length=20)
-	is_Approved = models.IntegerField(max_length=20, choices=isApproved_CHOICES)
 	
 class Meeting(models.Model):
 	isApproved_CHOICES = (

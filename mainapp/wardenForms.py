@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.forms import Textarea
+from mainapp.models import Election
 from mainapp.models import Complaint,DuesItem
 from django.forms import ModelForm
 from django.forms import Textarea
@@ -17,6 +19,18 @@ class ComplaintForm(ModelForm):
 		self.fields['reason'].required = False 
 		self.fields['status'].required = False 
 		
+class StartElectionForm(forms.Form) :
+	election_type = forms.CharField(max_length = 20,widget=forms.TextInput)
+	description = forms.CharField(max_length=500,widget=forms.Textarea()) 
+	start_dateTime = forms.CharField(max_length = 20,widget=forms.TextInput) 
+	end_dateTime = forms.CharField(max_length = 20,widget=forms.TextInput)
+	election_officer = forms.CharField(max_length = 30,widget=forms.TextInput)
+	num_candidates = forms.CharField(max_length = 20, widget=forms.TextInput)
+
+class CandidateNominationForm(forms.Form) :
+	candidate_username = forms.CharField(max_length = 20,widget=forms.TextInput)
+	candidate_post = forms.CharField(max_length = 20,widget=forms.TextInput)
+
 class DuesForm(forms.Form):
 	duesitem_type = forms.ChoiceField(
 		choices=(
@@ -45,4 +59,3 @@ class DuesForm1(ModelForm):
 		self.fields['status'].required = False 
 		self.fields['paymentInfo'].required = False	
 		self.fields['isApproved_staff'].required = False
-		

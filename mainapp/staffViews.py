@@ -175,7 +175,7 @@ def view_MessBill(request):
 		return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
 	else:
 		return HttpResponseRedirect('/accounts/profile')
-### need to change		
+		
 def update_messbill(request,id):
 	if request.user.is_authenticated() and request.user.get_profile().userType==2:
 		layout = request.GET.get('layout')

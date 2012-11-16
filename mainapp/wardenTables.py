@@ -34,4 +34,3 @@ class DuesTable(tables.Table):
 		sequence=('id','payee_id','duesitem_type','set_dues','pay_dues','submission_timestamp','duesdetails','paymentInfo','isApproved_staff','isApproved_warden','status',)
 		attrs = {"class":"paleblue"}
 		'''
-

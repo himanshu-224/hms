@@ -9,15 +9,20 @@ from mainapp.models import *
 from mainapp.forms import *
 
 
+
 from mainapp.studentForms import ComplaintForm,DuesForm,MessBillForm
 from mainapp.studentTables import ComplaintTable,DuesTable,DuesTable1,MessBillTable,MessBillTable1
 from mainapp.forms import UpdateInfoForm
 from mainapp.models import Policy
 #from mainapp.models import UserProfile
+
+
 from django.contrib.auth.models import User
 import datetime
 
 userTypes={0:'student', 1:'hec',2:'staff',3:'warden', 4:'dosa', 5:'senate'}
+mailList={"studentlist","employeelist"}
+
 
 def homepage(request,template_name):
 	if request.user.is_authenticated():
@@ -85,7 +90,6 @@ def update_info(request) :
 		return HttpResponseRedirect('/accounts/profile')
 		
 	
-
 def view_complaints(request):
 	if request.user.is_authenticated() and request.user.get_profile().userType==0:
 		table = ComplaintTable(Complaint.objects.filter(complainee_id=request.user.username))
@@ -172,6 +176,10 @@ Messages Functionalities
 def inbox(request):
 	if request.user.is_authenticated():
 		table = inboxTable(inboxMessage.objects.filter(receiverlist=request.user.username))
+
+def inbox(request):
+	if request.user.is_authenticated():
+		table = inboxTable(inboxMessage.objects.filter(receiverlist=request.user.username))
 		RequestConfig(request).configure(table)
 		for i in range(len(userTypes)):
 			if request.user.get_profile().userType==i:
@@ -202,19 +210,60 @@ def compose_message(request):
                 layout = 'vertical'
             if request.method == 'POST':
 				form = MessageForm(request.POST)
+				u=User.objects.all()
+				k=0
 				if form.is_valid():
+					'''
+					for s in form.cleaned_data['To'].split(","):
+						k=0
+						if s in mailList:
+							k=1
+						else:
+							for user in u:
+								if s!=user.username:
+									continue
+								else :
+									k=1
+									break
+						if k==0:
+							form = MessageForm()
+							layout = 'vertical'
+			                for i in range(len(userTypes)):
+									if request.user.get_profile().userType==i:
+										return render_to_response(userTypes[i]+'/compose_message.html', RequestContext(request, {
+										'form': form,
+										'layout': layout,
+										}))'''
+										
 					at = form.cleaned_data['To']
 					ct = form.cleaned_data['subject']
 					dt = form.cleaned_data['message']
-					Cmp=inboxMessage(sender=request.user.username,receiverlist=at, subject=ct,message=dt,timestamp=datetime.date.today(),)
-					Cmp.save()
-					Cmp=outboxMessage(sender=request.user.username,receiverlist=at, subject=ct,message=dt,timestamp=datetime.date.today(),)
-					Cmp.save()
+					
+					for s in at.split(","):
+						if s not in mailList:
+							msg=inboxMessage(sender=request.user.username,receiverlist=s, subject=ct,message=dt,timestamp=datetime.date.today(),)
+							msg.save()
+						else:
+							u=User.objects.all()
+							for user in u:
+								if s =="studentlist":
+									if user.get_profile().userType==0:
+										msg=inboxMessage(sender=request.user.username,receiverlist=user.username, subject=ct,message=dt,timestamp=datetime.date.today(),)
+										msg.save()
+								elif s=="employeelist":
+									if user.get_profile().userType in range(2,4):
+										msg=inboxMessage(sender=request.user.username,receiverlist=user.username, subject=ct,message=dt,timestamp=datetime.date.today(),)
+										msg.save()
+					msg=outboxMessage(sender=request.user.username,receiverlist=at, subject=ct,message=dt,timestamp=datetime.date.today(),)
+					msg.save()					
 					for i in range(len(userTypes)):
 						if request.user.get_profile().userType==i:
 							return HttpResponseRedirect('/'+userTypes[i]+'/outbox')
+							
+						
+							
             else:
-                form = MessageForm()
+                form = MessageForm
                 for i in range(len(userTypes)):
 						if request.user.get_profile().userType==i:
 							return render_to_response(userTypes[i]+'/compose_message.html', RequestContext(request, {
@@ -234,6 +283,12 @@ def show_message(request,id):
 		layout = 'vertical'
 		m=inboxMessage.objects.get(pk=id)
 		#m=outboxMessage.objects.get(pk=id[0])
+def showInbox_message(request,id):
+	if request.user.is_authenticated():
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		m=inboxMessage.objects.get(pk=id)
 		subject=m.subject
 		msg=m.message
 		timestamp=m.timestamp
@@ -244,6 +299,7 @@ def show_message(request,id):
 		for i in range(len(userTypes)):
 						if request.user.get_profile().userType==i:
 							return render_to_response(userTypes[i]+'/show_message.html', RequestContext(request, {
+							'type':"From",
 							'sender':m.sender,
 							'subject':m.subject,
 							'timestamp':m.timestamp,
@@ -256,7 +312,9 @@ def show_message(request,id):
             return HttpResponseRedirect('/accounts/profile')
 
 		
-def delete_message(request,id):
+#def delete_message(request,id):
+
+def deleteInbox_message(request,id):
 	
 	if request.user.is_authenticated():
 		layout = request.GET.get('layout')
@@ -272,7 +330,51 @@ def delete_message(request,id):
 			for i in range(len(userTypes)):
 				if request.user.get_profile().userType==i:
 					return HttpResponseRedirect('/'+userTypes[i]+'/outbox')'''
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')
+            
 
+def showOutbox_message(request,id):
+	if request.user.is_authenticated():
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		m=outboxMessage.objects.get(pk=id)
+		subject=m.subject
+		msg=m.message
+		timestamp=m.timestamp
+		m.isRead='read'	
+		m.save()
+		for i in range(len(userTypes)):
+					if request.user.get_profile().userType==i:
+						return render_to_response(userTypes[i]+'/show_message.html', RequestContext(request, {
+						'type':"To",
+						'sender':m.receiverlist,
+						'subject':m.subject,
+						'timestamp':m.timestamp,
+						'message':m.message
+						}))		    
+
+
+	elif not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+            return HttpResponseRedirect('/accounts/profile')
+
+		
+def deleteOutbox_message(request,id):
+	
+	if request.user.is_authenticated():
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		messages=outboxMessage.objects.get(pk=id)
+		messages.delete() 
+		for i in range(len(userTypes)):
+			if request.user.get_profile().userType==i:
+				return HttpResponseRedirect('/'+userTypes[i]+'/outbox')
 	elif not request.user.is_authenticated():
             return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
 	else:
@@ -383,4 +485,4 @@ def view_paid_messbill(request):
             
             
             
-            
+

@@ -1,6 +1,12 @@
 import django_tables2 as tables
+<<<<<<< HEAD
 from mainapp.models import Complaint,DuesItem,MessBill
+=======
+from mainapp.models import Complaint,DuesItem
+
+>>>>>>> b13aca3383b79e53abebb0e44e510d7752ce02f6
 from django_tables2.utils import A  # alias for Accessor
+from mainapp.models import *
 
 class ComplaintTable(tables.Table):
 	id = tables.Column()
@@ -18,6 +24,7 @@ class ComplaintTable(tables.Table):
 	class Meta:
 		model = Complaint
 		attrs = {"class": "paleblue"}
+
 		
 class DuesTable(tables.Table):
 	id = tables.Column()
@@ -35,6 +42,7 @@ class DuesTable(tables.Table):
 		sequence=('id','payee_id','duesitem_type','set_dues','pay_dues','submission_timestamp','duesdetails','paymentInfo','isApproved_staff','isApproved_warden','status',)
 		attrs = {"class":"paleblue"}
 		
+<<<<<<< HEAD
 class DuesTable1(tables.Table):
 	id = tables.Column()
 	pay = tables.LinkColumn('pay_dues',accessor='id', args=[A('pk')], verbose_name='Pay')
@@ -91,3 +99,21 @@ class MessBillTable1(tables.Table):
 		sequence=('id','payee_id','month','no_of_days','rebate_days','basic_amount','extra','total_bill','details',)
 		attrs = {"class":"paleblue"}
 		
+=======
+
+
+class InventoryIssueTable(tables.Table):
+    
+    item_id = tables.Column(verbose_name="Item Id")
+    issuer_id = tables.Column(verbose_name="Issuer Id")
+    issue_timestamp = tables.Column(verbose_name="Issued on")
+    return_timestamp = tables.Column(verbose_name="Returned on")
+    issued_duration=tables.Column(verbose_name="No of days")
+    isReturned = tables.Column(verbose_name="Is Returned")
+    fine=tables.Column(verbose_name="Fine")
+    
+    class Meta:
+        model = InventoryIssue
+        attrs = {"class": "paleblue"}  
+        exclude=('Delete','Return')
+>>>>>>> b13aca3383b79e53abebb0e44e510d7752ce02f6
