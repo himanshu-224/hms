@@ -27,7 +27,7 @@
 	</li>
         <li><a href="#">Requests</a>
 			<ul>
-				<li><a href="/warden/viewRequest/">View Requests</a></li>
+				<li><a href="/warden/viewRequests/">View Requests</a></li>
 			</ul>	
 	</li>
         <li><a href="#">Dues</a>
@@ -35,6 +35,11 @@
 				<li><a href="/warden/viewDues/">View Dues</a></li>
 			</ul>	
 	</li>
+        <li><a href="#">Hall Policies</a>
+            <ul>
+                <li><a href="/warden/viewPolicies/">View Policies</a></li>
+            </ul>
+     </li>
 
         <li><a href="#">Clients</a></li>	
     </ul>

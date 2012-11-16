@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from mainapp.models import Complaint
 from django.forms import ModelForm
 from django.forms import Textarea
+from mainapp.models import Policy
 
 class ComplaintForm(ModelForm):
 	class Meta:
@@ -15,4 +16,8 @@ class ComplaintForm(ModelForm):
 		super(ModelForm, self).__init__(*args, **kwargs)       
 		self.fields['reason'].required = False 
 		self.fields['status'].required = False 
-		
+
+class PolicyForm(ModelForm):
+	class Meta:
+		model = Policy
+		proposal = forms.CharField( widget=forms.Textarea )

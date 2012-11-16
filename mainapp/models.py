@@ -159,12 +159,13 @@ class Budget(models.Model):
 	is_Approved = models.IntegerField(max_length=20, choices=isApproved_CHOICES)
 	
 class Policy(models.Model):
-    statement = models.CharField(max_length = 500)
-    proposal = models.CharField(max_length = 500, blank = True)
+    statement = models.CharField(max_length = 1000)
+    proposal = models.CharField(max_length = 1000, blank = True)
     STATUS = (
     (u'APP', u'Approved'),
     (u'PFC', u'Proposed for change'),
     (u'NPR', u'New Proposal'),
+    (u'PFD', u'Proposed for deletion'),
     )
     status = models.CharField(max_length = 10, choices = STATUS)
     SEND_REQ_TO = (
@@ -172,7 +173,7 @@ class Policy(models.Model):
     (u'SS', u'Student Senate'),
     )
     requestedTo = models.CharField(max_length = 10, choices = SEND_REQ_TO, blank = True)
-    message = models.CharField(max_length = 500, blank = True)
+    message = models.CharField(max_length = 500, blank = True) #not used
 
     def getStatement(self):
         return self.statement
@@ -236,6 +237,40 @@ class Message(models.Model):
 	message = models.CharField(max_length=20)
 	timestamp = models.DateField(max_length=10)
 	isRead = models.IntegerField(max_length=10, choices=isRead_CHOICES)
+
+class Entry(models.Model):
+    title = models.CharField(max_length=40)
+    snippet = models.CharField(max_length=150, blank=True)
+    body = models.TextField(max_length=10000, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    date = models.DateField(blank=True)
+    creator = models.ForeignKey(User, blank=True, null=True)
+#    remind = models.BooleanField(default=False)#not implemented
+
+    def __unicode__(self):
+        if self.title:
+            return unicode(self.creator) + u" - " + self.title
+        else:
+            return unicode(self.creator) + u" - " + self.snippet[:40]
+
+    def short(self):
+        if self.snippet:
+            return "<i>%s</i> - %s" % (self.title, self.snippet)
+        else:
+            return self.title
+    short.allow_tags = True
+
+    class Meta:
+        verbose_name_plural = "entries"
+
+
+### Admin
+
+#class EntryAdmin(admin.ModelAdmin):
+ #   list_display = ["creator", "date", "title", "snippet"]
+  #  list_filter = ["creator"]
+
+#admin.site.register(Entry, EntryAdmin)
 
 
 

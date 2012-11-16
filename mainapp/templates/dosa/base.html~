@@ -38,12 +38,12 @@
         <li><a href="#">Hall Policies</a>
             <ul>
                 <li><a href="/dosa/viewPolicies/">View Policies</a></li>
-                <li><a href="/dosa/viewPolicyRequests/">View Policy Requests</a></li>
-                <li><a href="/dosa/createNewPolicy/">New Policy Request</a></li>
-                <li><a href="/dosa/modifyExistingPolicy/">Policy Change Request</a></li>
+                <li><a href="/dosa/pendingRequests/">Pending Requests</a></li>
+                <li><a href="/dosa/createPolicy/">Create Policy</a></li>
+                <li><a href="/dosa/changePolicy/">Change Policy</a></li>
+                <li><a href="/dosa/deletePolicy/">Delete Policy</a></li>
             </ul>
      </li>
-        <li><a href="#">Clients</a></li>	
     </ul>
 </div>
 

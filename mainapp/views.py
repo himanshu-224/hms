@@ -12,7 +12,7 @@ from mainapp.models import Policy
 
 import datetime
 
-userTypes={0:'student', 1:'hec',2:'staff',3:'dosa', 4:'dosa', 5:'senate'}
+userTypes={0:'student', 1:'hec',2:'staff',3:'warden', 4:'dosa', 5:'senate'}
 
 def homepage(request,template_name):
 	if request.user.is_authenticated():
@@ -104,19 +104,20 @@ def delete_complaint(request,id):
 def view_policies(request):
 	if request.user.is_authenticated():
 		policies = Policy.objects.filter(status='APP')
+		policies2 = Policy.objects.filter(status='PFC')
 		usr = request.user.get_profile().userType
 		if usr == 0:
-			return render_to_response('student/viewPolicy.html', {'policies': policies})
+			return render_to_response('student/viewPolicy.html', {'policies': policies, 'policies2' : policies2})
 		elif usr == 1:
-			return render_to_response('hec/viewPolicy.html', {'policies': policies})
+			return render_to_response('hec/viewPolicy.html', {'policies': policies, 'policies2' : policies2})
 		elif usr == 2:
-			return render_to_response('staff/viewPolicy.html', {'policies': policies})
+			return render_to_response('staff/viewPolicy.html', {'policies': policies, 'policies2' : policies2})
 		elif usr == 3:
-			return render_to_response('warden/viewPolicy.html', {'policies': policies})
+			return render_to_response('warden/viewPolicy.html', {'policies': policies, 'policies2' : policies2})
 		elif usr == 4:
-			return render_to_response('dosa/viewPolicy.html', {'policies': policies})
+			return render_to_response('dosa/viewPolicy.html', {'policies': policies, 'policies2' : policies2})
 		else:
-			return render_to_response('senate/viewPolicy.html', {'policies': policies})
+			return render_to_response('senate/viewPolicy.html', {'policies': policies, 'policies2' : policies2})
 	
 
 
