@@ -1,0 +1,14 @@
+{% extends "staff/base.html" %}
+
+{% block title %} Add Mess Bill {% endblock %}
+
+{% block content %}
+    
+<p>&nbsp;</p>
+        
+<form action="" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

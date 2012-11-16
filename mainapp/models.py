@@ -60,9 +60,15 @@ class DuesItem(models.Model):
 		('Rejected', u'Rejected'),
 		('Pending', u'Pending'),
 	)
-	payee_id = models.CharField(max_length=30)
+	IsSubmitted_choices=(
+		('submitted',u'Submitted'),
+		('not submitted',u'Not Submitted'),
+	)
+	payee_id = models.CharField(max_length=10)
+	submitted = models.CharField(max_length=20, choices=IsSubmitted_choices,default='not submitted')
 	duesitem_type = models.CharField(max_length=30)
-	amount = models.IntegerField(max_length=30)
+	set_dues = models.IntegerField(default=0) 
+	pay_dues = models.IntegerField(default=0)
 	submission_timestamp = models.DateField(max_length=30)
 	duesdetails = models.CharField(max_length=500,default='')
 	status = models.CharField(max_length=200,default='')
@@ -70,18 +76,60 @@ class DuesItem(models.Model):
 	isApproved_staff = models.CharField(max_length=10, choices=isApproved_CHOICES,default='Pending')
 	isApproved_warden = models.CharField(max_length=10, choices=isApproved_CHOICES,default='Pending')
 	
+class MessBill(models.Model):
+	isVerified_CHOICES = (
+		('Accepted', u'Accepted'),
+		('Rejected', u'Rejected'),
+		('Pending', u'Pending'),
+	)
+	IsSubmitted_choices=(
+		('submitted',u'Submitted'),
+		('not submitted',u'Not Submitted'),
+	)
+	payee_id = models.CharField(max_length=10)
+	month = models.CharField(max_length=10)
+	no_of_days = models.IntegerField(default=0)
+	rebate_days = models.IntegerField(default=0)
+	basic_amount=models.FloatField(default=0) 
+	extra = models.FloatField(default=0)
+	total_bill = models.FloatField(default=0)
+	pay_messbill = models.FloatField(default=0)
+	submission_timestamp = models.DateField(max_length=30)
+	details = models.CharField(max_length=500,default='')
+	status = models.CharField(max_length=200,default='')
+	paymentInfo = models.CharField(max_length=30)
+	submitted = models.CharField(max_length=20, choices=IsSubmitted_choices,default='not submitted')
+	isVerified_staff = models.CharField(max_length=10, choices=isVerified_CHOICES,default='Pending')
+	
 class InventoryItem(models.Model):
-	item_id = models.CharField(max_length=10)
+	item_id = models.CharField(max_length=10,primary_key=True)
 	name = models.CharField(max_length=30)
-	inventoryItem_type = models.CharField(max_length=30)
-	no_total = models.IntegerField(max_length=30)
-	no_issued = models.IntegerField(max_length=30)
+	date_added= models.DateField(max_length=20)
+	no_total = models.IntegerField(default=1)
+	no_issued = models.IntegerField(default=0)
+	issued_for = models.IntegerField(default=15)
+	fine_rate=models.FloatField(default=0)
+    	Issue=models.CharField(max_length=6,default="Issue")
+	Delete=models.CharField(max_length=7,default="Delete")
+	def __unicode__(self):
+        	return self.item_id
+	
 	
 class InventoryIssue(models.Model):
+	isReturned_CHOICES = (
+        ('Yes', u'Yes'),
+        ('No', u'No'),
+	)    
 	item_id = models.ForeignKey(InventoryItem)
-	issuer_id = models.CharField(max_length=20)
+	issuer_id = models.ForeignKey(User)
 	issue_timestamp = models.DateField(max_length=10)
-	issued_duration = models.DateField(max_length=10)
+	return_timestamp = models.DateField(max_length=10)
+	issued_duration = models.FloatField(default=0)
+	isReturned=models.CharField(max_length=10, choices=isReturned_CHOICES,default='No')
+	fine=models.FloatField(default=0)
+	Return=models.CharField(max_length=7,default="Return")
+	Delete = models.CharField(max_length=7,default="Delete")
+	
 	
 class Activity(models.Model):
 	isApproved_CHOICES = (
@@ -102,12 +150,22 @@ class Election(models.Model):
 		(2, u'Pending'),
 	)
 	election_type = models.CharField(max_length=20)
+	description = models.CharField(max_length=100)
+	start_dateTime = models.DateField(max_length=20)
+	end_dateTime = models.DateField(max_length=20)
+	election_officer = models.CharField(max_length=20)
+	is_Approved = models.IntegerField(max_length=20, choices=isApproved_CHOICES)
+
+class candidateList(models.Model) :
+	candidate_name = models.CharField(max_length = 30)
+	username = models.CharField(max_length = 10)
+	total_votes = models.IntegerField(max_length = 20)
+	post = models.CharField(max_length = 20)
 	description = models.CharField(max_length=20)
 	start_dateTime = models.DateField(max_length=20)
 	end_dateTime = models.DateField(max_length=20)
 	candidate_list = models.CharField(max_length=10)
 	election_officer = models.CharField(max_length=20)
-	is_Approved = models.IntegerField(max_length=20, choices=isApproved_CHOICES)
 	
 class Meeting(models.Model):
 	isApproved_CHOICES = (
@@ -134,16 +192,6 @@ class MessMenu(models.Model):
 	mess_timings = models.DateField(max_length=20)
 	is_Approved = models.IntegerField(max_length=20, choices=isApproved_CHOICES)
 	
-class MessBill(models.Model):
-	isApproved_CHOICES = (
-		(0, u'Accepted'),
-		(1, u'Rejected'),
-		(2, u'Pending'),
-	)
-	basic_amount= models.IntegerField(max_length=20)
-	start_dateTime = models.DateField(max_length=20)
-	end_dateTime = models.DateField(max_length=20)
-	is_Approved = models.IntegerField(max_length=20, choices=isApproved_CHOICES)
 	
 class Budget(models.Model):
 	isApproved_CHOICES = (
@@ -226,17 +274,28 @@ class HallGuest(models.Model):
 	staying_from = models.DateField(max_length=10)
 	staying_till = models.DateField(max_length=10)
 	
-class Message(models.Model):
+class inboxMessage(models.Model):
 	isRead_CHOICES = (
-		(0, u'Unread'),
-		(1, u'Read'),
+		('unread', u'Unread'),
+		('read', u'Read'),
 	)
-	sender = models.CharField(max_length=10)
-	receiver = models.CharField(max_length=10)
-	subject = models.CharField(max_length=10)
-	message = models.CharField(max_length=20)
-	timestamp = models.DateField(max_length=10)
-	isRead = models.IntegerField(max_length=10, choices=isRead_CHOICES)
+	button="DELETE"
+	sender = models.CharField(max_length=30)
+	receiverlist = models.CharField(max_length=30*11)
+	subject = models.CharField(max_length=50,default='')
+	message = models.CharField(max_length=500)
+	timestamp = models.DateField(max_length=10) ##NEED TO MODIFY TO TILL SECOND
+	isRead = models.CharField(max_length=10, choices=isRead_CHOICES,default='unread')
+
+
+class outboxMessage(models.Model):
+	button="DELETE"
+	sender = models.CharField(max_length=30)
+	receiverlist = models.CharField(max_length=30*11)
+	subject = models.CharField(max_length=50,default='')
+	message = models.CharField(max_length=500)
+	timestamp = models.DateField(max_length=10) ##NEED TO MODIFY TO TILL SECONDSSS
+	
 
 class Entry(models.Model):
     title = models.CharField(max_length=40)
@@ -271,6 +330,14 @@ class Entry(models.Model):
   #  list_filter = ["creator"]
 
 #admin.site.register(Entry, EntryAdmin)
+
+
+class draftMessage(models.Model):
+	sender = models.CharField(max_length=30)
+	receiverlist = models.CharField(max_length=30*11,default='')
+	subject = models.CharField(max_length=50,default='')
+	message = models.CharField(max_length=500)
+	timestamp = models.DateField(max_length=10) ##NEED TO MODIFY TO TILL SECONDSSS
 
 
 

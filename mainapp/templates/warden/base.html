@@ -1,10 +1,8 @@
-
-
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block menu_css %}
 <style>
-#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:800px; height:52px; font-family: arial; }
+#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:1200px; height:52px; font-family: arial; }
 #navigation ul{ margin:0; padding: 0;}
 #navigation ul li{ background: url('static/images/devider.gif') no-repeat top right; display:inline; height: 52px; list-style:none; float:left; }
 #navigation li a{ color:#ccc; text-decoration: none; line-height:3.2em; display:block; padding:0px 30px; }
@@ -35,13 +33,32 @@
 				<li><a href="/warden/viewDues/">View Dues</a></li>
 			</ul>	
 	</li>
+
+      
         <li><a href="#">Hall Policies</a>
             <ul>
                 <li><a href="/warden/viewPolicies/">View Policies</a></li>
             </ul>
      </li>
-
-        <li><a href="#">Clients</a></li>	
+        
+        <li><a href="#">Messages</a>
+			<ul>
+				<li><a href="/warden/inbox">Inbox</a></li>
+				<li><a href="/warden/outbox">Outbox</a></li>
+				<li><a href="/warden/compose">Compose</a></li></li>
+			</ul>
+        
+        </li>       
+	<li><a href="#">Activities</a>
+			<ul>
+				<li><a href="/warden/election">Election</a></li>
+			</ul>
+        
+        </li>        
+		
+         <li><a href="/accounts/logout/">Logout </a></li>
+    </ul>
+        	
     </ul>
 </div>
 
@@ -49,7 +66,4 @@
 {% block content %}{% endblock %}
 {% block footer %}
 {% endblock %}
-
-
-
-
+>>>>>>> 37b82d31577501d1e2a13aba65829068f9c91908

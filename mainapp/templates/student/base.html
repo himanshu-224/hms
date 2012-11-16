@@ -1,10 +1,8 @@
-
-
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block menu_css %}
 <style>
-#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:800px; height:52px; font-family: arial; }
+#navigation{ background:url('/static/images/nav-bg.gif') repeat-x; width:900px; height:52px; font-family: arial; }
 #navigation ul{ margin:0; padding: 0;}
 #navigation ul li{ background: url('static/images/devider.gif') no-repeat top right; display:inline; height: 52px; list-style:none; float:left; }
 #navigation li a{ color:#ccc; text-decoration: none; line-height:3.2em; display:block; padding:0px 30px; }
@@ -32,20 +30,44 @@
 				<li><a href="/student/viewRequests/">Check Status</a></li>
 			</ul>	
 	</li>
-        <li><a href="#">Dues</a>
+        <li><a href="#">Mess Bill</a>
 			<ul>
-				<li><a href="/student/payDues/">Pay Dues</a></li>
-				<li><a href="/student/viewDues/">Check Status</a></li>
+				<li><a href ="/student/viewMessBill"> View Bill</a></li>
+				<li><a href="/student/viewPaidMessBill"> Paid Bill</a></li>
 			</ul>	
 	</li>
-       <li><a href="#">Hall Policies</a>
-            <ul>
-                <li><a href="/student/viewPolicies/">View Policies</a></li>
-            </ul>
-     </li>
-     
+	
+		<li><a href="#">Dues</a>
+			<ul>
+				<li><a href ="/student/viewDues"> View Dues</a></li>
+				<li><a href="/student/viewPaidDues"> Paid Dues</a></li>
+			</ul>	
+	</li>
+	
 
-        <li><a href="#">Clients</a></li>	
+        <li><a href="#">Notification</a>
+			<ul>
+				<li><a href="/student/notifications/view/">View Notifications</a></li>
+				<li><a href="/student/notifications/send/">Send Notification</a></li>
+			</ul>
+        
+        </li>
+        
+        
+        <li><a href="#">Messages</a>
+			<ul>
+				<li><a href="/student/inbox/">Inbox</a></li>
+				<li><a href="/student/outbox/">Outbox</a></li>
+				<li><a href="/student/compose/">Compose</a></li></li>
+
+			</ul>
+        
+        </li>       
+        	
+         <li><a href="/accounts/logout/">Logout </a></li>
+    </ul>
+        
+        
     </ul>
 </div>
 

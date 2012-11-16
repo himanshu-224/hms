@@ -1,9 +1,7 @@
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template.context import RequestContext
 from django.contrib.auth.forms import UserCreationForm
-from django_tables2   import RequestConfig
-
 from mainapp.models import Complaint
 from mainapp.dosaForms import ComplaintForm
 from mainapp.dosaTables import ComplaintTable
@@ -11,7 +9,9 @@ from mainapp.models import Policy
 from django.views.decorators.csrf import csrf_exempt
 
 
+
 import datetime
+
 
 
 def view_complaints(request):
@@ -161,6 +161,7 @@ def submit_policy(request, req):
 			return render_to_response('dosa/submitPolicy.html')	
 
 	
+
 
 
 

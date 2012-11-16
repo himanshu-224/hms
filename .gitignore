@@ -1,5 +1,9 @@
 /hms/settings.py
 *.pyc
+<<<<<<< HEAD
 *.*~
 
+=======
+*.py~
+>>>>>>> 37b82d31577501d1e2a13aba65829068f9c91908
 /hms/sqlinfo.txt

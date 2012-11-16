@@ -1,0 +1,27 @@
+{% extends "warden/base.html" %}
+{% block title %}Conduct Election{% endblock %}
+{% block content %}
+
+<h1 align="center">Election</h1>
+<style>
+	html { background: #CCCCCC ; }
+	
+	.button{
+		text-align: center
+	}
+</style>
+<div id = "form">
+<form action="." method="post">
+{% csrf_token %} 
+{{ form.as_p }}
+<input type="submit" value="Start Election" id="sub"/>
+</form>
+</div>
+
+<div class="button">
+<button>
+<a href='/warden/addCandidate/'>Add Candidate</href>
+</button>
+</div>
+
+{% endblock %}
