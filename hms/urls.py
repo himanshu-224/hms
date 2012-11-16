@@ -35,8 +35,6 @@ url('^student/deleteComplaint/id=(\d+)$', 'mainapp.views.delete_complaint', name
 (r'^student/inbox/$','mainapp.views.inbox'),
 (r'^student/outbox/$','mainapp.views.outbox'),
 (r'student/compose/$','mainapp.views.compose_message'),
-url('^student/deleteMessage/id=(\d+)$', 'mainapp.views.delete_message', name='delete_message'),
-url('^student/showMessage/id=(\d+)$', 'mainapp.views.show_message', name='show_message'),
 
 
 url('^student/deleteInbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
@@ -57,19 +55,18 @@ url('^staff/actOnComplaint/id=(\d+)$', 'mainapp.staffViews.act_on_complaint', na
 (r'^staff/inbox/$','mainapp.views.inbox'),
 (r'^staff/outbox/$','mainapp.views.outbox'),
 (r'staff/compose/$','mainapp.views.compose_message'),
-<<<<<<< HEAD
-url('^staff/deleteMessage/id=(\d+)$', 'mainapp.views.delete_message', name='delete_message'),
-url('^staff/showMessage/id=(\d+)$', 'mainapp.views.show_message', name='show_message'),
+
+
 (r'^staff/addMessBill/$',createbill),
 (r'^staff/viewMessBill/$','mainapp.staffViews.view_MessBill'),
 url('^staff/UpdateMessBill/id=(\d+)$', 'mainapp.staffViews.update_messbill', name='update_messbill'),
 url('^staff/actOnMessBill/id=(\d+)$', 'mainapp.staffViews.act_on_messBill', name='act_on_messBill_staff'),
-=======
-url('^staff/deletezinbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
+
+url('^staff/deleteInbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
 url('^staff/showInbox_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
 url('^staff/deleteOutbox_message/id=(\d+)$', 'mainapp.views.deleteOutbox_message', name='deleteOutbox_message'),
 url('^staff/showOutbox_message/id=(\d+)$', 'mainapp.views.showOutbox_message', name='showOutbox_message'),
->>>>>>> b13aca3383b79e53abebb0e44e510d7752ce02f6
+
 
 
 

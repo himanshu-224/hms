@@ -1,10 +1,7 @@
 import django_tables2 as tables
-<<<<<<< HEAD
-from mainapp.models import Complaint,DuesItem,MessBill
-=======
-from mainapp.models import Complaint,DuesItem
 
->>>>>>> b13aca3383b79e53abebb0e44e510d7752ce02f6
+from mainapp.models import Complaint,DuesItem,MessBill
+
 from django_tables2.utils import A  # alias for Accessor
 from mainapp.models import *
 
@@ -42,7 +39,7 @@ class DuesTable(tables.Table):
 		sequence=('id','payee_id','duesitem_type','set_dues','pay_dues','submission_timestamp','duesdetails','paymentInfo','isApproved_staff','isApproved_warden','status',)
 		attrs = {"class":"paleblue"}
 		
-<<<<<<< HEAD
+
 class DuesTable1(tables.Table):
 	id = tables.Column()
 	pay = tables.LinkColumn('pay_dues',accessor='id', args=[A('pk')], verbose_name='Pay')
@@ -99,7 +96,7 @@ class MessBillTable1(tables.Table):
 		sequence=('id','payee_id','month','no_of_days','rebate_days','basic_amount','extra','total_bill','details',)
 		attrs = {"class":"paleblue"}
 		
-=======
+
 
 
 class InventoryIssueTable(tables.Table):
@@ -116,4 +113,4 @@ class InventoryIssueTable(tables.Table):
         model = InventoryIssue
         attrs = {"class": "paleblue"}  
         exclude=('Delete','Return')
->>>>>>> b13aca3383b79e53abebb0e44e510d7752ce02f6
+
