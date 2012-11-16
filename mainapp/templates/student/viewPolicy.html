@@ -1,0 +1,22 @@
+{% extends "student/base.html" %}
+
+{% block title %}Hall Policies{% endblock %}
+
+{% block content %}
+
+{% if policies %}
+    <ul>
+    {% for p in policies %}
+      <li>{{ p.statement }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% if policies2 %}
+    <ul>
+    {% for p in policies2 %}
+      <li>{{ p.statement }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock %}

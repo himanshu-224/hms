@@ -1,0 +1,27 @@
+{% extends "hec/base.html" %}
+<!-- ... -->
+{% block content %}
+
+<a href="{% url mainapp.hecViews.main year|add:'-3' %}" align="center" style="text-decoration:none;">&lt;&lt; Prev</a>
+<a href="{% url mainapp.hecViews.main year|add:'3' %}" align="center" style="text-decoration:none">Next &gt;&gt;</a>
+
+    {% for year, months in years %}
+        <div class="clear"></div>
+        <h4 align="center">{{ year }}</h4>
+        <table cellspacing = "10" cellpadding = "10" style="margin : auto;">
+        <tr>
+        {% for month in months %}
+            <div class=
+            {% if month.current %}"current"{% endif %}
+            {% if not month.current %}"month"{% endif %} >
+            <td>    {% if month.entry %}<b>{% endif %}
+                <a href="{% url mainapp.hecViews.month year month.n %}" style="text-decoration:none">{{ month.name }}</a>
+                {% if month.entry %}</b>{% endif %} </td>
+            </div>
+
+            {% if month.n == 6 %}</tr><tr>{% endif %}
+        {% endfor %}
+        </tr></table>
+    {% endfor %}
+ 
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "senate/base.html" %}
+
+{% block title %}Pending Policy Requests{% endblock %}
+
+{% block content %}
+
+
+
+{% for p in pol %}
+  
+
+    <div class="policy">
+       <p> <div class="statement">{{ p.statement }} </div>  </p>
+            <a href="{% url mainapp.senateViews.delete_request p.id %}">send delete request</a>
+    </div>
+    <br/>
+  
+{% endfor %}
+
+
+{% endblock %}

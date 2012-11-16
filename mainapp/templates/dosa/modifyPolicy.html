@@ -1,0 +1,26 @@
+{% extends "dosa/base.html" %}
+
+{% block title %}Request for new policy{% endblock %}
+
+{% block content %}
+
+
+<p> Current policy statement : </p>
+<p>{{ pol.statement}}</p>
+
+
+<p> Enter policy statement for proposal : </p>
+
+
+<form action="{% url mainapp.dosaViews.submit_change_request pol.id %}" method="post">
+{% csrf_token %}
+<textarea rows = "10" cols = "100" name = "policy">
+</textarea>
+<br/>
+<input type="submit" value="Send request to Senate"> 
+</form>
+
+
+{% endblock %}
+
+

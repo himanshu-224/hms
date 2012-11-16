@@ -1,0 +1,21 @@
+{% extends "dosa/base.html" %}
+
+{% block title %}Pending Policy Requests{% endblock %}
+
+{% block content %}
+
+
+
+{% for p in pol %}
+  
+
+    <div class="policy">
+       <p> <div class="statement">{{ p.statement }} </div>  </p>
+            <a href="{% url mainapp.dosaViews.change_request p.id %}"> modify </a>
+    </div>
+    <br/>
+  
+{% endfor %}
+
+
+{% endblock %}

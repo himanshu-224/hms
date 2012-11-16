@@ -1,0 +1,128 @@
+{% extends "dosa/base.html" %}
+
+{% block title %}Pending Policy Requests{% endblock %}
+
+{% block content %}
+
+
+{% if pending1 or pending2 or pending3 %}
+<p><b><u>Policy requests from senate</u></b> :</p>
+{% endif %}
+
+{% if l1 == 1 %}
+<p><u>New Policy proposal</u>:</p>
+{% endif %}
+
+{% if l1 > 1 %}
+<p><u>New Policy proposals</u>:</p>
+{% endif %}
+
+{% for p in pending1 %}
+   {% if p.status == "NPR" %}
+
+    <div class="pending">
+       <p> <div class="statement">{{ p.proposal }} </div>  </p>
+            <a href="{% url mainapp.dosaViews.accept_request p.id %}" style="text-decoration:none">accept</a> | 
+            <a href="{% url mainapp.dosaViews.reject_request p.id %}" style="text-decoration:none">reject</a> 
+    </div>
+    <br/>
+   {% endif %}
+{% endfor %}
+
+
+<br/>
+{% if l2 == 1 %}
+<p><u>Proposal for policy modification</u>:</p>
+{% endif %}
+
+{% if l2 > 1 %}
+<p><u>Proposals for policy modification</u>:</p>
+{% endif %}
+
+{% for p in pending2 %}
+   {% if p.status == "PFC" %}
+    
+    <div class="pending2">
+        <p><div class="statement"> Current Policy : {{ p.statement }} </div></p>
+        <p><div class="proposal"> Modification : {{ p.proposal }}</div></p>
+            <a href="{% url mainapp.dosaViews.accept_request p.id %}" style="text-decoration:none">accept</a> | 
+            <a href="{% url mainapp.dosaViews.reject_request p.id %}" style="text-decoration:none">reject</a>
+    </div>
+    <br/>
+   {% endif %}
+{% endfor %}
+
+{% if l3 == 1 %}
+<p><u>Proposal for deletion</u>:</p>
+{% endif %}
+
+{% if l3 > 1 %}
+<p><u>Proposals for deletion</u>:</p>
+{% endif %}
+
+{% for p in pending3 %}
+   {% if p.status == "PFD" %}
+        <div class="pending3">
+       <p> <div class="statement"> {{ p.statement }} </div></p>
+           <a href="{% url mainapp.dosaViews.accept_request p.id %}" style="text-decoration:none">accept</a> | 
+            <a href="{% url mainapp.dosaViews.reject_request p.id %}" style="text-decoration:none">reject</a>
+    </div>
+    <br/>
+   {% endif %}
+{% endfor %}
+
+{% if pending4 or pending5 or pending6 %}
+
+<p><b><u>Your submitted proposals</u> :</b></p>
+
+   {% if pending4 %}
+
+   <p><u>New policy proposal</u> : </p>
+
+       {% for p in pending4 %}
+   
+        <div class="pending4">
+       <p> <div class="statement"> {{ p.proposal }} </div></p>
+           <a href="{% url mainapp.dosaViews.delete_proposal p.id %}" style="text-decoration:none">delete request</a>
+    </div>
+    <br/>
+
+       {% endfor %}
+    {% endif %}
+
+   {% if pending5 %}
+
+   <p><u> Policy modification proposal</u>: </p>
+
+       {% for p in pending5 %}
+           <div class="pending5">
+       <p>statement : </p> 
+        <p> <div class="statement"> {{ p.statement }} </div></p>  
+    <p> modified proposal : </p> 
+        <div class="statement"> {{ p.proposal }} </div></p>
+           <a href="{% url mainapp.dosaViews.delete_proposal p.id %}" style="text-decoration:none">delete request</a>
+    </div>
+    <br/>
+
+       {% endfor %}
+    {% endif %}
+
+    {% if pending6 %}
+
+   <p> <u>Policy deletion</u>: </p>
+
+       {% for p in pending6 %}
+   
+        <div class="pending6">
+        <p>statement:</p>
+       <p> <div class="statement"> {{ p.statement }} </div></p>
+           <a href="{% url mainapp.dosaViews.delete_proposal p.id %}" style="text-decoration:none">delete request</a>
+    </div>
+    <br/>
+
+       {% endfor %}
+    {% endif %}
+
+
+{% endif %}
+{% endblock %}

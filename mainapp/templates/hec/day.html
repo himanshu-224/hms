@@ -1,0 +1,24 @@
+{% extends "hec/base.html" %}
+<!-- ... -->
+{% block content %}
+
+<h4>Day Entries</h4>
+<form action="{% url mainapp.hecViews.day year month day %}" method="POST"> {% csrf_token %}
+
+{{ entries.management_form }}
+
+{% for entry in entries.forms %}
+    {{ entry.id }}
+    <div class="entry">
+        <div class="del">Delete {{ entry.DELETE }}</div>
+        <div id="inp1">
+            <p>Title: {{ entry.title }}</p>
+            <p>Description: {{ entry.snippet }}</p>
+        </div>
+        {{ entry.body }}
+    </div>
+{% endfor %}
+
+<input type="submit" value="Save" /> </form>
+
+{% endblock %}
