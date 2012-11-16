@@ -76,6 +76,9 @@ url('^warden/actOnComplaint/id=(\d+)$', 'mainapp.wardenViews.act_on_complaint', 
 (r'^warden/inbox/$','mainapp.views.inbox'),
 (r'^warden/outbox/$','mainapp.views.outbox'),
 (r'warden/compose/$','mainapp.views.compose_message'),
+(r'^warden/addDues/$','mainapp.wardenViews.add_Dues'),
+(r'^warden/viewDues/$','mainapp.wardenViews.view_dues'),
+(r'^warden/viewPolicies/$','mainapp.views.view_policies'),
 url('^warden/election/$', 'mainapp.wardenViews.conduct_election', name='conduct_election'),
 url('^warden/addCandidate/$', 'mainapp.wardenViews.add_candidate', name='add_candidate'),
 url('^warden/deleteInbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message', name='deleteInbox_message'),
@@ -164,7 +167,7 @@ url('^senate/deleteInbox_message/id=(\d+)$', 'mainapp.views.deleteInbox_message'
 url('^senate/showInbox_message/id=(\d+)$', 'mainapp.views.showInbox_message', name='showInbox_message'),
 url('^senate/deleteOutbox_message/id=(\d+)$', 'mainapp.views.deleteOutbox_message', name='deleteOutbox_message'),
 url('^senate/showOutbox_message/id=(\d+)$', 'mainapp.views.showOutbox_message', name='showOutbox_message'), 
- (r'^$', direct_to_template, {'template': 'index.html'}, "home"),)
+(r'^$', direct_to_template, {'template': 'index.html'}, "home"),
 
 
 
