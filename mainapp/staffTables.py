@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from mainapp.models import Complaint,DuesItem
+from mainapp.models import Complaint,DuesItem,MessBill
 from django_tables2.utils import A  # alias for Accessor
 
 class ComplaintTable(tables.Table):
@@ -33,3 +33,25 @@ class DuesTable1(tables.Table):
 		model = DuesItem
 		sequence=('id','payee_id','duesitem_type','set_dues','pay_dues','submission_timestamp','duesdetails','paymentInfo','isApproved_staff','isApproved_warden','status',)
 		attrs = {"class":"paleblue"}
+	
+class MessBillTable(tables.Table):
+	id = tables.LinkColumn('act_on_messBill_staff', args=[A('pk')])
+	Update = tables.LinkColumn('update_messbill',accessor='id', args=[A('pk')], verbose_name='Update')
+	details = tables.Column(orderable=False)
+	status = tables.Column(verbose_name="Status Details",orderable=False)
+	payee_id = tables.Column(verbose_name="Payee ID")
+	no_of_days=tables.Column(verbose_name ="No. Of Days")
+	rebate_days = tables.Column(verbose_name ="Rebate Days")
+	basic_amount = tables.Column(verbose_name ="Basic Amount")
+	extra= tables.Column(verbose_name ="Extra Cost")
+	month = tables.Column(verbose_name ="Month")
+	submission_timestamp = tables.Column(verbose_name="Date of Payment")
+	isVerified_staff = tables.Column(verbose_name="Verified by staff")
+	
+		
+	class Meta:
+		model = MessBill
+		sequence=('id','payee_id','month','no_of_days','rebate_days','basic_amount','extra','total_bill','pay_messbill','submission_timestamp','details','paymentInfo','status','isVerified_staff',)
+		attrs = {"class":"paleblue"}
+		
+		

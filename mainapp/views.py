@@ -9,8 +9,8 @@ from mainapp.models import *
 from mainapp.forms import *
 
 
-from mainapp.studentForms import ComplaintForm,DuesForm
-from mainapp.studentTables import ComplaintTable,DuesTable
+from mainapp.studentForms import ComplaintForm,DuesForm,MessBillForm
+from mainapp.studentTables import ComplaintTable,DuesTable,DuesTable1,MessBillTable,MessBillTable1
 from mainapp.forms import UpdateInfoForm
 from mainapp.models import Policy
 #from mainapp.models import UserProfile
@@ -295,11 +295,11 @@ def pay_dues(request,id):
 				Dues.pay_dues=amt
 				Dues.submitted='submitted'
 				Dues.paymentInfo = payInf
-				Dues.submission_timestamp=datetime.date.today()
+				#Dues.submission_timestamp=datetime.date.today()
 				Dues.save()
 				return HttpResponseRedirect('/student/home')
 		else:
-			form = DuesForm()
+			form = DuesForm(instance=Dues)
 		return render_to_response('student/pay_dues.html', RequestContext(request, {
 		'form': form,
 		'layout':layout,
@@ -311,7 +311,7 @@ def pay_dues(request,id):
 		
 def view_dues(request):
 	if request.user.is_authenticated() and request.user.get_profile().userType==0:
-		table = DuesTable(DuesItem.objects.filter(payee_id=request.user.username ,submitted = "not submitted" ))
+		table = DuesTable1(DuesItem.objects.filter(payee_id=request.user.username ,submitted = "not submitted" ))
 		RequestConfig(request).configure(table)
 		return render(request,'student/viewDues.html',{'table': table})
 	elif not request.user.is_authenticated():
@@ -324,6 +324,58 @@ def view_paid_dues(request):
 		table = DuesTable(DuesItem.objects.filter(payee_id=request.user.username,submitted = "submitted"))
 		RequestConfig(request).configure(table)
 		return render(request,'student/viewDues.html',{'table': table})
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+		
+		
+def pay_messbill(request,id):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+		layout = request.GET.get('layout')
+		if not layout:
+			layout = 'vertical'
+		Bill=MessBill.objects.get(pk=id)
+		if Bill.payee_id == request.user.username and Bill.submitted=='submitted':
+			return HttpResponseRedirect('/student/viewMessbill')
+		
+		elif request.method == 'POST':
+			form = MessBillForm(request.POST)
+			if form.is_valid():
+				amt= form.cleaned_data['pay_messbill']
+				payInf= form.cleaned_data['paymentInfo']
+				Bill.pay_messbill=amt
+				Bill.submitted='submitted'
+				Bill.paymentInfo = payInf
+				#Bill.submission_timestamp=datetime.date.today()
+				Bill.save()
+				return HttpResponseRedirect('/student/home')
+		else:
+			form = MessBillForm(instance=Bill)
+		return render_to_response('student/pay_mess_bill.html', RequestContext(request, {
+		'form': form,
+		'layout':layout,
+		}))
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+		
+def view_messbill(request):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+		table = MessBillTable1(MessBill.objects.filter(payee_id=request.user.username ,submitted = "not submitted" ))
+		RequestConfig(request).configure(table)
+		return render(request,'student/viewMessBill.html',{'table': table})
+	elif not request.user.is_authenticated():
+		return HttpResponseRedirect('/accounts/login/next=%s' % request.path)
+	else:
+		return HttpResponseRedirect('/accounts/profile')
+		
+def view_paid_messbill(request):
+	if request.user.is_authenticated() and request.user.get_profile().userType==0:
+		table = MessBillTable(MessBill.objects.filter(payee_id=request.user.username,submitted = "submitted"))
+		RequestConfig(request).configure(table)
+		return render(request,'student/viewPaidDues.html',{'table': table})
 	elif not request.user.is_authenticated():
 		return HttpResponseRedirect('/accounts/login/next=%s' % request.path)
 	else:

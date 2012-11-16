@@ -76,6 +76,31 @@ class DuesItem(models.Model):
 	isApproved_staff = models.CharField(max_length=10, choices=isApproved_CHOICES,default='Pending')
 	isApproved_warden = models.CharField(max_length=10, choices=isApproved_CHOICES,default='Pending')
 	
+class MessBill(models.Model):
+	isVerified_CHOICES = (
+		('Accepted', u'Accepted'),
+		('Rejected', u'Rejected'),
+		('Pending', u'Pending'),
+	)
+	IsSubmitted_choices=(
+		('submitted',u'Submitted'),
+		('not submitted',u'Not Submitted'),
+	)
+	payee_id = models.CharField(max_length=10)
+	month = models.CharField(max_length=10)
+	no_of_days = models.IntegerField(default=0)
+	rebate_days = models.IntegerField(default=0)
+	basic_amount=models.FloatField(default=0) 
+	extra = models.FloatField(default=0)
+	total_bill = models.FloatField(default=0)
+	pay_messbill = models.FloatField(default=0)
+	submission_timestamp = models.DateField(max_length=30)
+	details = models.CharField(max_length=500,default='')
+	status = models.CharField(max_length=200,default='')
+	paymentInfo = models.CharField(max_length=30)
+	submitted = models.CharField(max_length=20, choices=IsSubmitted_choices,default='not submitted')
+	isVerified_staff = models.CharField(max_length=10, choices=isVerified_CHOICES,default='Pending')
+	
 class InventoryItem(models.Model):
 	item_id = models.CharField(max_length=10,primary_key=True)
 	name = models.CharField(max_length=30)
@@ -157,16 +182,6 @@ class MessMenu(models.Model):
 	mess_timings = models.DateField(max_length=20)
 	is_Approved = models.IntegerField(max_length=20, choices=isApproved_CHOICES)
 	
-class MessBill(models.Model):
-	isApproved_CHOICES = (
-		(0, u'Accepted'),
-		(1, u'Rejected'),
-		(2, u'Pending'),
-	)
-	basic_amount= models.IntegerField(max_length=20)
-	start_dateTime = models.DateField(max_length=20)
-	end_dateTime = models.DateField(max_length=20)
-	is_Approved = models.IntegerField(max_length=20, choices=isApproved_CHOICES)
 	
 class Budget(models.Model):
 	isApproved_CHOICES = (

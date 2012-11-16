@@ -4,6 +4,7 @@ from mainapp.simple import direct_to_template
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 from django.conf import settings
+from mainapp.staffViews import createbill
 
 userTypes={0:'student', 1:'hec',2:'staff',3:'warden', 4:'dosa', 5:'senate'}
 admin.autodiscover()
@@ -17,12 +18,19 @@ url(r'^admin/', include(admin.site.urls)),
 (r'^accounts/register/$','mainapp.views.register'),
 (r'^accounts/updateInfo/$', 'mainapp.views.update_info'),
 
+
 (r'^student/home/$','mainapp.views.homepage',{'template_name' : 'student/home.html'}),
 (r'^student/viewComplaints/$','mainapp.views.view_complaints'),
 (r'^student/addComplaint/$','mainapp.views.add_complaint'),
 (r'^student/viewDues/$','mainapp.views.view_dues'),
 url('^student/PayDues/id=(\d+)$', 'mainapp.views.pay_dues', name='pay_dues'),
 (r'^student/viewPaidDues/$','mainapp.views.view_paid_dues'),
+
+(r'^student/viewMessBill/$','mainapp.views.view_messbill'),
+url('^student/PayMessBill/id=(\d+)$', 'mainapp.views.pay_messbill', name='pay_messbill'),
+(r'^student/viewPaidMessBill/$','mainapp.views.view_paid_messbill'),
+
+
 url('^student/deleteComplaint/id=(\d+)$', 'mainapp.views.delete_complaint', name='delete_complaint'),
 (r'^student/inbox/$','mainapp.views.inbox'),
 (r'^student/outbox/$','mainapp.views.outbox'),
@@ -34,6 +42,7 @@ url('^student/showMessage/id=(\d+)$', 'mainapp.views.show_message', name='show_m
 (r'^staff/viewDues/$','mainapp.staffViews.view_Dues'),
 url('^staff/deleteDues/id=(\d+)$', 'mainapp.staffViews.delete_dues', name='delete_dues'),
 url('^staff/actOnDues/id=(\d+)$', 'mainapp.staffViews.act_on_dues', name='act_on_dues_staff'),
+
 (r'^staff/home/$','mainapp.views.homepage',{'template_name' : 'staff/home.html'}),
 (r'^staff/home/$','mainapp.views.profile',{'template_name' : 'staff/home.html'}),
 (r'^staff/viewComplaints/$','mainapp.staffViews.view_complaints'),
@@ -43,6 +52,10 @@ url('^staff/actOnComplaint/id=(\d+)$', 'mainapp.staffViews.act_on_complaint', na
 (r'staff/compose/$','mainapp.views.compose_message'),
 url('^staff/deleteMessage/id=(\d+)$', 'mainapp.views.delete_message', name='delete_message'),
 url('^staff/showMessage/id=(\d+)$', 'mainapp.views.show_message', name='show_message'),
+(r'^staff/addMessBill/$',createbill),
+(r'^staff/viewMessBill/$','mainapp.staffViews.view_MessBill'),
+url('^staff/UpdateMessBill/id=(\d+)$', 'mainapp.staffViews.update_messbill', name='update_messbill'),
+url('^staff/actOnMessBill/id=(\d+)$', 'mainapp.staffViews.act_on_messBill', name='act_on_messBill_staff'),
 
 
 
