@@ -1,0 +1,36 @@
+{% extends "warden/base.html" %}
+{% block title %}Add Candidate{% endblock %}
+{% block content %}
+<style>
+#id_username {
+	width = 300px;
+	height = 200px;
+}
+#id_post {
+	width = 300px;
+	height = 200px;
+	
+}
+.im{
+	margin-top : 100px;
+	text-align: center
+}
+.finish{
+	margin-top : 20px
+}
+</style> 
+ <div class="im">
+<form action="." method="post">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+
+<div class="finish">
+<button>
+<a href="/accounts/profile"> Finish Adding Candidate</a>
+</button>
+</div>
+</div>
+{% endblock %}
+
